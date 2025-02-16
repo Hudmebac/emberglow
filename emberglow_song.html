@@ -232,90 +232,158 @@
         .back-button:hover {
             background-color: #ff6347; /* Darker shade on hover */
         }
+        .collapsible {
+            cursor: pointer; /* Change cursor to pointer for collapsible sections */
+            padding: 10px; /* Padding for the button */
+            background-color: #ff4500; /* Background color for the button */
+            color: white; /* Text color */
+            border: none; /* No border */
+            text-align: left; /* Align text to the left */
+            outline: none; /* No outline */
+            font-size: 1.2em; /* Font size */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 10px; /* Space below the button */
+        }
+        .content {
+            display: none; /* Hide content by default */
+            padding: 10px; /* Padding for content */
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for content */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 20px; /* Space below content */
+        }
+        @media (max-width: 600px) { /* Media query for mobile devices */
+            body {
+                padding: 10px; /* Reduce padding for smaller screens */
+            }
+            h1 {
+                font-size: 2em; /* Smaller font size for the title */
+            }
+            .input-group {
+                max-width: 100%; /* Allow input group to take full width */
+                margin-bottom: 20px; /* Add margin below input group */
+            }
+            textarea {
+                max-width: 100%; /* Allow textarea to take full width */
+            }
+            .sidebar {
+                max-width: 100%; /* Allow sidebar to take full width */
+                left: 0; /* Reset left position */
+                top: 10px; /* Adjust top position */
+                margin-bottom: 20px; /* Add margin below sidebar */
+            }
+            .button-container {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: flex-start; /* Align items to the start */
+                margin-bottom: 10px; /* Add margin below button containers */
+            }
+            .clip-title {
+                font-size: 1em; /* Adjust font size for clip titles */
+            }
+            .volume-control {
+                flex-direction: column; /* Stack volume controls vertically */
+                margin-bottom: 20px; /* Add margin below volume control */
+            }
+            .comments-box {
+                max-width: 100%; /* Allow comments box to take full width */
+                margin-bottom: 20px; /* Add margin below comments box */
+            }
+            .comments-vote-container {
+                max-width: 100%; /* Allow comments and vote area to take full width */
+                position: relative; /* Reset position for mobile */
+                right: 0; /* Reset right position */
+                top: 0; /* Reset top position */
+                margin-bottom: 20px; /* Add margin below comments and vote area */
+            }
+            .back-button {
+                width: 100%; /* Make back button full width */
+                margin-top: 20px; /* Add margin above back button */
+            }
+        }
     </style>
 </head>
 <body>
     <h1>Create Your Emberglow Song</h1>
     
-    <div class="sidebar">
-        <h2>Previously Created Songs</h2>
-        
-        <div class="button-container">
-            <span class="clip-title">Desert Legend</span>
-            <button class="play-button" onclick="playSound('Desert legend.m4a', 'desertAudio')">
-                <i class="fas fa-play icon"></i>
-            </button>
-            <button class="pause-button" onclick="pauseSound('desertAudio')">
-                <i class="fas fa-pause icon"></i>
-            </button>
-            <button class="restart-button" onclick="restartSound('desertAudio')">
-                <i class="fas fa-redo icon"></i>
-            </button>
-        </div>
-        
-        <div class="button-container">
-            <span class="clip-title">Emberglow</span>
-            <button class="play-button" onclick="playSound('Emberglow.m4a', 'emberAudio')">
-                <i class="fas fa-play icon"></i>
-            </button>
-            <button class="pause-button" onclick="pauseSound('emberAudio')">
-                <i class="fas fa-pause icon"></i>
-            </button>
-            <button class="restart-button" onclick="restartSound('emberAudio')">
-                <i class="fas fa-redo icon"></i>
-            </button>
-        </div>
+    <button class="collapsible">Previously Created Songs</button>
+    <div class="content">
+        <div class="sidebar">
+            <div class="button-container">
+                <span class="clip-title">Desert Legend</span>
+                <button class="play-button" onclick="playSound('Desert legend.m4a', 'desertAudio')">
+                    <i class="fas fa-play icon"></i>
+                </button>
+                <button class="pause-button" onclick="pauseSound('desertAudio')">
+                    <i class="fas fa-pause icon"></i>
+                </button>
+                <button class="restart-button" onclick="restartSound('desertAudio')">
+                    <i class="fas fa-redo icon"></i>
+                </button>
+            </div>
+            
+            <div class="button-container">
+                <span class="clip-title">Emberglow</span>
+                <button class="play-button" onclick="playSound('Emberglow.m4a', 'emberAudio')">
+                    <i class="fas fa-play icon"></i>
+                </button>
+                <button class="pause-button" onclick="pauseSound('emberAudio')">
+                    <i class="fas fa-pause icon"></i>
+                </button>
+                <button class="restart-button" onclick="restartSound('emberAudio')">
+                    <i class="fas fa-redo icon"></i>
+                </button>
+            </div>
 
-        <div class="button-container">
-            <span class="clip-title">Zacember</span>
-            <button class="play-button" onclick="playSound('zacember.m4a', 'zacemberAudio')">
-                <i class="fas fa-play icon"></i>
-            </button>
-            <button class="pause-button" onclick="pauseSound('zacemberAudio')">
-                <i class="fas fa-pause icon"></i>
-            </button>
-            <button class="restart-button" onclick="restartSound('zacemberAudio')">
-                <i class="fas fa-redo icon"></i>
-            </button>
-        </div>
+            <div class="button-container">
+                <span class="clip-title">Zacember</span>
+                <button class="play-button" onclick="playSound('zacember.m4a', 'zacemberAudio')">
+                    <i class="fas fa-play icon"></i>
+                </button>
+                <button class="pause-button" onclick="pauseSound('zacemberAudio')">
+                    <i class="fas fa-pause icon"></i>
+                </button>
+                <button class="restart-button" onclick="restartSound('zacemberAudio')">
+                    <i class="fas fa-redo icon"></i>
+                </button>
+            </div>
 
-        <!-- New audio clips -->
-        <div class="button-container">
-            <span class="clip-title">Rocking Hero</span>
-            <button class="play-button" onclick="playSound('Rocking Hero.m4a', 'rockingHeroAudio')">
-                <i class="fas fa-play icon"></i>
-            </button>
-            <button class="pause-button" onclick="pauseSound('rockingHeroAudio')">
-                <i class="fas fa-pause icon"></i>
-            </button>
-            <button class="restart-button" onclick="restartSound('rockingHeroAudio')">
-                <i class="fas fa-redo icon"></i>
-            </button>
-        </div>
+            <!-- New audio clips -->
+            <div class="button-container">
+                <span class="clip-title">Rocking Hero</span>
+                <button class="play-button" onclick="playSound('Rocking Hero.m4a', 'rockingHeroAudio')">
+                    <i class="fas fa-play icon"></i>
+                </button>
+                <button class="pause-button" onclick="pauseSound('rockingHeroAudio')">
+                    <i class="fas fa-pause icon"></i>
+                </button>
+                <button class="restart-button" onclick="restartSound('rockingHeroAudio')">
+                    <i class="fas fa-redo icon"></i>
+                </button>
+            </div>
 
-        <div class="button-container">
-            <span class="clip-title">Element Quest</span>
-            <button class="play-button" onclick="playSound('Element Quest.m4a', 'elementQuestAudio')">
-                <i class="fas fa-play icon"></i>
-            </button>
-            <button class="pause-button" onclick="pauseSound('elementQuestAudio')">
-                <i class="fas fa-pause icon"></i>
-            </button>
-            <button class="restart-button" onclick="restartSound('elementQuestAudio')">
-                <i class="fas fa-redo icon"></i>
-            </button>
-        </div>
+            <div class="button-container">
+                <span class="clip-title">Element Quest</span>
+                <button class="play-button" onclick="playSound('Element Quest.m4a', 'elementQuestAudio')">
+                    <i class="fas fa-play icon"></i>
+                </button>
+                <button class="pause-button" onclick="pauseSound('elementQuestAudio')">
+                    <i class="fas fa-pause icon"></i>
+                </button>
+                <button class="restart-button" onclick="restartSound('elementQuestAudio')">
+                    <i class="fas fa-redo icon"></i>
+                </button>
+            </div>
 
-        <!-- Volume Control -->
-        <div class="volume-control">
-            <span class="clip-title">Volume (0-10)</span>
-            <button class="volume-button" onclick="changeVolume(1)">
-                <i class="fas fa-arrow-up icon"></i> <!-- Fire-themed up arrow -->
-            </button>
-            <button class="volume-button" onclick="changeVolume(-1)">
-                <i class="fas fa-arrow-down icon"></i> <!-- Fire-themed down arrow -->
-            </button>
-            <div class="current-volume">Current Volume: <span id="volumeDisplay">10</span></div> <!-- Display current volume -->
+            <!-- Volume Control -->
+            <div class="volume-control">
+                <span class="clip-title">Volume (0-10)</span>
+                <button class="volume-button" onclick="changeVolume(1)">
+                    <i class="fas fa-arrow-up icon"></i> <!-- Fire-themed up arrow -->
+                </button>
+                <button class="volume-button" onclick="changeVolume(-1)">
+                    <i class="fas fa-arrow-down icon"></i> <!-- Fire-themed down arrow -->
+                </button>
+                <div class="current-volume">Current Volume: <span id="volumeDisplay">10</span></div> <!-- Display current volume -->
+            </div>
         </div>
     </div>
 
@@ -326,50 +394,56 @@
         <button id="clearButton">Clear</button>
     </div>
 
-    <div>
-        <h2>Generated Song</h2>
-        <div id="songOutput"></div>
+    <button class="collapsible">Generated Song</button>
+    <div class="content">
+        <div>
+            <h2>Generated Song</h2>
+            <div id="songOutput"></div>
+        </div>
     </div>
 
-    <div>
-        <h2>Lyrics History</h2>
-        <div id="history"></div>
+    <button class="collapsible">Lyrics History</button>
+    <div class="content">
+        <div>
+            <h2>Lyrics History</h2>
+            <div id="history"></div>
+        </div>
     </div>
 
     <!-- Back to Main Page Button -->
     <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
 
     <!-- Comments and Voting Area -->
-    <div class="comments-vote-container">
-        <!-- Comments Box -->
-        <div class="comments-box">
-            <label for="comments">Leave your comments:</label>
-            <textarea id="comments" placeholder="Share your experience..."></textarea>
-            <button id="submitComment">Submit Comment</button>
-        </div>
-
-        <!-- Voting Area -->
-        <div class="vote-area">
-            <h2>Vote for Your Favorite Audio</h2>
-            <div>
-                <span>Desert Legend</span>
-                <button class="vote-button" onclick="vote('Desert Legend')">Vote</button>
+    <button class="collapsible">Comments and Voting Area</button>
+    <div class="content">
+        <div class="comments-vote-container">
+            <div class="comments-box">
+                <label for="comments">Leave your comments:</label>
+                <textarea id="comments" placeholder="Share your experience..."></textarea>
+                <button id="submitComment">Submit Comment</button>
             </div>
-            <div>
-                <span>Emberglow</span>
-                <button class="vote-button" onclick="vote('Emberglow')">Vote</button>
-            </div>
-            <div>
-                <span>Zacember</span>
-                <button class="vote-button" onclick="vote('Zacember')">Vote</button>
-            </div>
-            <div>
-                <span>Rocking Hero</span>
-                <button class="vote-button" onclick="vote('Rocking Hero')">Vote</button>
-            </div>
-            <div>
-                <span>Element Quest</span>
-                <button class="vote-button" onclick="vote('Element Quest')">Vote</button>
+            <div class="vote-area">
+                <h2>Vote for Your Favorite Audio</h2>
+                <div>
+                    <span>Desert Legend</span>
+                    <button class="vote-button" onclick="vote('Desert Legend')">Vote</button>
+                </div>
+                <div>
+                    <span>Emberglow</span>
+                    <button class="vote-button" onclick="vote('Emberglow')">Vote</button>
+                </div>
+                <div>
+                    <span>Zacember</span>
+                    <button class="vote-button" onclick="vote('Zacember')">Vote</button>
+                </div>
+                <div>
+                    <span>Rocking Hero</span>
+                    <button class="vote-button" onclick="vote('Rocking Hero')">Vote</button>
+                </div>
+                <div>
+                    <span>Element Quest</span>
+                    <button class="vote-button" onclick="vote('Element Quest')">Vote</button>
+                </div>
             </div>
         </div>
     </div>
@@ -509,6 +583,20 @@ A desert legend, in the open day.
                 alert("Please enter a comment before submitting."); // Alert if empty
             }
         });
+
+        // Collapse and expand functionality
+        const collapsibles = document.getElementsByClassName("collapsible");
+        for (let i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                const content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none"; // Collapse
+                } else {
+                    content.style.display = "block"; // Expand
+                }
+            });
+        }
     </script>
 </body>
 </html> 

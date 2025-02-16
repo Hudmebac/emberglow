@@ -114,6 +114,19 @@
         .back-button:hover {
             background-color: #e03e00; /* Darker shade on hover */
         }
+        .remove-button {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .remove-button:hover {
+            background-color: #e03e00; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
@@ -125,6 +138,7 @@
         <input type="text" id="imageName" placeholder="Enter image name" />
         <input type="text" id="imageDescription" placeholder="Enter image description" />
         <button id="addImageButton">Add Image</button>
+        <button id="viewDeletedButton">View Deleted Images</button>
         <div class="feedback" id="feedback"></div>
         <div class="error" id="error"></div>
     </div>
@@ -132,6 +146,12 @@
     <div id="imageViewer">
         <span class="close" onclick="closeViewer()">&times;</span>
         <img id="fullImage" src="" alt="Full Image" />
+    </div>
+
+    <div id="deletedImagesViewer" style="display: none;">
+        <h2>Deleted Images</h2>
+        <div id="deletedImagesGallery"></div>
+        <button onclick="closeDeletedImages()">Close</button>
     </div>
 
     <!-- New section for Cartoon Ember -->
@@ -154,6 +174,9 @@
         const fullImage = document.getElementById('fullImage');
         const feedback = document.getElementById('feedback');
         const error = document.getElementById('error');
+        const deletedImages = [];
+        const deletedImagesViewer = document.getElementById('deletedImagesViewer');
+        const deletedImagesGallery = document.getElementById('deletedImagesGallery');
 
         // Load images from local storage or use default images
         const defaultImages = [
@@ -189,8 +212,19 @@
                 const info = document.createElement('div');
                 info.className = 'image-info';
                 info.innerHTML = `<strong>${name}</strong><br>${description}`;
+                
+                // Create a remove button
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = (event) => {
+                    event.stopPropagation(); // Prevent opening viewer
+                    removeImage(src);
+                };
+                removeButton.className = 'remove-button'; // Add a class for styling
+                
                 thumbnail.appendChild(img);
                 thumbnail.appendChild(info);
+                thumbnail.appendChild(removeButton); // Append the remove button
                 gallery.appendChild(thumbnail);
             });
         }
@@ -234,6 +268,63 @@
             document.getElementById('imageDescription').value = ''; // Clear input
             feedback.textContent = 'Image added successfully!';
         };
+
+        // Function to display deleted images
+        function displayDeletedImages() {
+            deletedImagesGallery.innerHTML = '';
+            deletedImages.forEach(({ src, name, description }) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                const img = document.createElement('img');
+                img.src = src;
+                const info = document.createElement('div');
+                info.className = 'image-info';
+                info.innerHTML = `<strong>${name}</strong><br>${description}`;
+                
+                // Create a restore button
+                const restoreButton = document.createElement('button');
+                restoreButton.textContent = 'Restore';
+                restoreButton.onclick = () => restoreImage(src);
+                restoreButton.className = 'remove-button'; // Use the same class for styling
+                
+                thumbnail.appendChild(img);
+                thumbnail.appendChild(info);
+                thumbnail.appendChild(restoreButton); // Append the restore button
+                deletedImagesGallery.appendChild(thumbnail);
+            });
+            deletedImagesViewer.style.display = 'block'; // Show the deleted images viewer
+        }
+
+        // Function to close the deleted images viewer
+        function closeDeletedImages() {
+            deletedImagesViewer.style.display = 'none';
+        }
+
+        // Function to remove an image from the gallery
+        function removeImage(src) {
+            const imageToRemove = storedImages.find(image => image.src === src);
+            if (imageToRemove) {
+                deletedImages.push(imageToRemove); // Add to deleted images array
+                storedImages = storedImages.filter(image => image.src !== src);
+                localStorage.setItem('images', JSON.stringify(storedImages)); // Update local storage
+                displayImages(); // Refresh the gallery display
+            }
+        }
+
+        // Function to restore an image
+        function restoreImage(src) {
+            const imageToRestore = deletedImages.find(image => image.src === src);
+            if (imageToRestore) {
+                storedImages.push(imageToRestore); // Add back to stored images
+                deletedImages = deletedImages.filter(image => image.src !== src); // Remove from deleted images
+                localStorage.setItem('images', JSON.stringify(storedImages)); // Update local storage
+                displayImages(); // Refresh the gallery display
+                displayDeletedImages(); // Refresh the deleted images display
+            }
+        }
+
+        // Event listener for the view deleted images button
+        document.getElementById('viewDeletedButton').onclick = displayDeletedImages;
 
         // Initial display of images
         displayImages();
