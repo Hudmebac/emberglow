@@ -250,6 +250,8 @@
             background-color: rgba(255, 255, 255, 0.9); /* Light background for content */
             border-radius: 5px; /* Rounded corners */
             margin-bottom: 20px; /* Space below content */
+            max-height: 70vh; /* Limit height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
         @media (max-width: 600px) { /* Media query for mobile devices */
             body {
@@ -304,7 +306,9 @@
 <body>
     <h1>Create Your Emberglow Song</h1>
     
-    <button class="collapsible">Previously Created Songs</button>
+    <button class="collapsible">
+        <i class="fas fa-chevron-down"></i> Previously Created Songs
+    </button>
     <div class="content">
         <div class="sidebar">
             <div class="button-container">
@@ -390,11 +394,17 @@
     <div class="input-group">
         <label for="where">Where?</label>
         <textarea id="where" rows="1" placeholder="Enter a location for your song..."></textarea>
-        <button id="generateSong">Generate Song</button>
-        <button id="clearButton">Clear</button>
+        <button id="generateSong">
+            <i class="fas fa-play"></i> <!-- Play icon -->
+        </button>
+        <button id="clearButton">
+            <i class="fas fa-stop"></i> <!-- Stop icon -->
+        </button>
     </div>
 
-    <button class="collapsible">Generated Song</button>
+    <button class="collapsible">
+        <i class="fas fa-chevron-down"></i> Generated Song
+    </button>
     <div class="content">
         <div>
             <h2>Generated Song</h2>
@@ -402,7 +412,9 @@
         </div>
     </div>
 
-    <button class="collapsible">Lyrics History</button>
+    <button class="collapsible">
+        <i class="fas fa-chevron-down"></i> Lyrics History
+    </button>
     <div class="content">
         <div>
             <h2>Lyrics History</h2>
@@ -414,7 +426,9 @@
     <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
 
     <!-- Comments and Voting Area -->
-    <button class="collapsible">Comments and Voting Area</button>
+    <button class="collapsible">
+        <i class="fas fa-chevron-down"></i> Comments and Voting Area
+    </button>
     <div class="content">
         <div class="comments-vote-container">
             <div class="comments-box">
