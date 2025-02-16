@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Themed Emberglow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            height: 100vh;
+            background-color: #000;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            background-image: url('desert-background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+            width: 200px;
+        }
+        .sidebar button {
+            background-color: #ff8c00;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.5em;
+            padding: 15px 40px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 69, 0, 0.8);
+        }
+        .sidebar button:hover {
+            background-color: #ffb300;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 69, 0, 1);
+        }
+        .container {
+            display: flex;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            position: relative;
+        }
+        canvas {
+            border: 1px solid #fff;
+            max-width: 800px;
+            height: auto;
+        }
+        h1 {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 204, 0, 0.8);
+            font-size: 3em;
+            text-shadow: none;
+            animation: pulse 1.5s infinite;
+            margin: 0;
+            z-index: 10;
+        }
+        .bio-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+            color: #333; /* Dark text color */
+            padding: 20px; /* Padding for spacing */
+            border-radius: 10px; /* Rounded corners */
+            max-width: 600px; /* Max width for the bio box */
+            margin: 20px auto; /* Center the bio box */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1) translateX(-50%);
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
+            }
+            50% {
+                transform: scale(1.1) translateX(-50%);
+                text-shadow: 0 0 20px rgba(255, 69, 0, 1), 0 0 30px rgba(255, 0, 0, 0.8);
+            }
+            100% {
+                transform: scale(1) translateX(-50%);
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Emberglow</h1>
+    <div class="sidebar">
+        <button onclick="location.href='origins.html'"><i class="fas fa-book"></i> Origins</button>
+        <button onclick="showComingSoonMessage()"><i class="fas fa-pencil-alt"></i> Create a Story <i class="fas fa-spinner" style="color: #ffb300;" aria-hidden="true"></i></button>
+        <button onclick="location.href='take_photo.html'"><i class="fas fa-camera"></i> Take a Photo</button>
+        <button onclick="location.href='elements.html'"><i class="fas fa-flask"></i> The Elements</button>
+        <button onclick="location.href='emberglow_song.html'"><i class="fas fa-music"></i> Emberglow Song</button>
+    </div>
+    <div class="container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    <div class="bio-container">
+        <h2>About the Creator</h2>
+        <p>
+            Hi, I am Zac! I am 8 years old, and I came up with the idea for Emberglow when I was tasked with creating a mythical creature at St. Patrick's Primary School in Lochgelly. 
+            I started this project with my dad, using images and tools like Co-Pilot and other AI available on the internet. Together, we created stories, songs, and lots of pictures and videos. 
+            This has been a fantastic experience, and I have helped my dad bring this idea to life. I hope you enjoy it!
+        </p>
+        <p>
+            Additionally, I am thinking about creating the opposite and enemy of Emberglow, which will be based on a "Kelpie." Stay tuned for that, coming soon!
+        </p>
+        <p>Love, Zac Heggie</p>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        function showComingSoonMessage() {
+            alert("We have not built this yet, be patient."); // Display alert message
+        }
+    </script>
+</body>
+</html>

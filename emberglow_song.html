@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emberglow Song Creator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CDN -->
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light background for a clean look */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for a typewriter feel */
+            padding: 20px;
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items */
+            position: relative; /* Position relative for absolute positioning of notes */
+            overflow: hidden; /* Prevent scrollbars from appearing */
+            background-image: url('musiccamel.jpg'); /* Set the background image to musiccamel.jpg */
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Prevent repeating the background */
+            background-position: center; /* Center the background image */
+            height: 100vh; /* Set height to fill the viewport */
+            width: 100vw; /* Set width to fill the viewport */
+        }
+        h1 {
+            color: #ff6347; /* A vibrant color for the title */
+            font-size: 3em; /* Larger font size for the title */
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+            width: 100%; /* Full width for the header */
+            text-align: center; /* Center the header text */
+        }
+        h1::before {
+            content: ''; /* Create a pseudo-element for the aura effect */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.3); /* Light aura effect */
+            border-radius: 10px; /* Rounded corners */
+            z-index: -1; /* Place behind the header */
+            filter: blur(10px); /* Blur effect for the aura */
+        }
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center the input group */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            max-width: 300px; /* Set a max width for the input group */
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.5em; /* Larger font size for labels */
+            color: #ff4500; /* Color for labels */
+        }
+        textarea {
+            width: auto; /* Set width to auto */
+            max-width: 300px; /* Set a maximum width for the textarea */
+            height: 80px; /* Increased height for comments */
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none; /* Prevent resizing */
+        }
+        button {
+            background-color: #ff4500; /* Button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 5px;
+            margin: 5px; /* Add margin for spacing */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+        button:hover {
+            background-color: #ff6347; /* Darker shade on hover */
+        }
+        #songOutput {
+            margin-top: 20px;
+            font-size: 1em; /* Smaller font size for output */
+            color: #333; /* Reset text color for better readability */
+            white-space: pre-wrap; /* Preserve whitespace for song formatting */
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for output */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            max-width: 500px; /* Set a max width for the output */
+            text-align: left; /* Align text to the left */
+            height: 200px; /* Set a fixed height for the output */
+            overflow-y: auto; /* Enable vertical scrolling */
+            display: none; /* Initially hidden */
+        }
+        #history {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 500px; /* Set a max width for the history */
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 300px; /* Set a fixed height for the history section */
+            border: 1px solid #ccc; /* Border for the history section */
+            border-radius: 5px; /* Rounded corners */
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for history */
+            padding: 10px; /* Padding for the history section */
+            display: none; /* Initially hidden */
+        }
+        .history-item {
+            border-bottom: 1px solid #ccc; /* Separator for history items */
+            padding: 10px;
+            color: #333; /* Reset text color for history items */
+        }
+        .history-item:last-child {
+            border-bottom: none; /* Remove border for the last item */
+        }
+        .sidebar {
+            position: absolute; /* Positioning for the sidebar */
+            left: 20px; /* Distance from the left */
+            top: 20px; /* Distance from the top */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            padding: 15px; /* Padding for the sidebar */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            max-width: 220px; /* Set a max width for the sidebar */
+        }
+        .button-container {
+            display: flex; /* Use flexbox for layout */
+            flex-direction: row; /* Stack title and buttons horizontally */
+            align-items: center; /* Center items vertically */
+            justify-content: flex-end; /* Align items to the right */
+            margin-bottom: 10px; /* Space between song entries */
+            padding: 5px; /* Padding for button containers */
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for button containers */
+            border-radius: 5px; /* Rounded corners for button containers */
+        }
+        .clip-title {
+            font-size: 0.8em; /* Smaller font size for clip titles */
+            color: orange; /* Change text color to orange */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Add dark shadow for depth */
+            margin-right: 10px; /* Space between title and buttons */
+        }
+        .play-button, .pause-button, .restart-button, .volume-button {
+            background-color: #ff4500; /* Button color */
+            color: white;
+            border: none;
+            padding: 5px; /* Smaller padding for buttons */
+            cursor: pointer;
+            font-size: 1em; /* Smaller font size for buttons */
+            border-radius: 5px;
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+            width: 40px; /* Set width for buttons */
+            height: 40px; /* Set height for buttons */
+            display: flex; /* Flexbox for centering icon */
+            justify-content: center; /* Center icon horizontally */
+            align-items: center; /* Center icon vertically */
+            margin: 0 2px; /* Space between buttons */
+        }
+        .play-button:hover, .pause-button:hover, .restart-button:hover, .volume-button:hover {
+            background-color: #ff6347; /* Darker shade on hover */
+        }
+        .icon {
+            font-size: 0.8em; /* Smaller font size for icons */
+            margin: 0; /* Remove margin for icons */
+        }
+        .volume-control {
+            margin-top: 10px; /* Space above the volume control */
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack buttons vertically */
+            align-items: center; /* Center items horizontally */
+        }
+        .current-volume {
+            font-size: 1em; /* Font size for current volume display */
+            color: #333; /* Color for current volume text */
+            margin-top: 5px; /* Space above the current volume display */
+        }
+        .vote-area {
+            margin-top: 20px; /* Space above the vote area */
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items */
+        }
+        .vote-button {
+            background-color: #ff4500; /* Button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 5px;
+            margin: 5px; /* Add margin for spacing */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+        .vote-button:hover {
+            background-color: #ff6347; /* Darker shade on hover */
+        }
+        .comments-box {
+            margin-top: 20px; /* Space above the comments box */
+            max-width: 500px; /* Set a max width for the comments box */
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack items vertically */
+        }
+        .comments-vote-container {
+            position: absolute; /* Positioning for comments and vote area */
+            right: 20px; /* Distance from the right */
+            top: 80px; /* Adjust this value to position it below the back button */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            padding: 15px; /* Padding for the comments and vote area */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            max-width: 300px; /* Set a max width for the comments and vote area */
+        }
+        .back-button {
+            background-color: #ff4500; /* Button color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 5px;
+            margin: 5px; /* Add margin for spacing */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+            position: absolute; /* Positioning for the button */
+            top: 20px; /* Distance from the top */
+            right: 20px; /* Distance from the right */
+        }
+        .back-button:hover {
+            background-color: #ff6347; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Create Your Emberglow Song</h1>
+    
+    <div class="sidebar">
+        <h2>Previously Created Songs</h2>
+        
+        <div class="button-container">
+            <span class="clip-title">Desert Legend</span>
+            <button class="play-button" onclick="playSound('Desert legend.m4a', 'desertAudio')">
+                <i class="fas fa-play icon"></i>
+            </button>
+            <button class="pause-button" onclick="pauseSound('desertAudio')">
+                <i class="fas fa-pause icon"></i>
+            </button>
+            <button class="restart-button" onclick="restartSound('desertAudio')">
+                <i class="fas fa-redo icon"></i>
+            </button>
+        </div>
+        
+        <div class="button-container">
+            <span class="clip-title">Emberglow</span>
+            <button class="play-button" onclick="playSound('Emberglow.m4a', 'emberAudio')">
+                <i class="fas fa-play icon"></i>
+            </button>
+            <button class="pause-button" onclick="pauseSound('emberAudio')">
+                <i class="fas fa-pause icon"></i>
+            </button>
+            <button class="restart-button" onclick="restartSound('emberAudio')">
+                <i class="fas fa-redo icon"></i>
+            </button>
+        </div>
+
+        <div class="button-container">
+            <span class="clip-title">Zacember</span>
+            <button class="play-button" onclick="playSound('zacember.m4a', 'zacemberAudio')">
+                <i class="fas fa-play icon"></i>
+            </button>
+            <button class="pause-button" onclick="pauseSound('zacemberAudio')">
+                <i class="fas fa-pause icon"></i>
+            </button>
+            <button class="restart-button" onclick="restartSound('zacemberAudio')">
+                <i class="fas fa-redo icon"></i>
+            </button>
+        </div>
+
+        <!-- New audio clips -->
+        <div class="button-container">
+            <span class="clip-title">Rocking Hero</span>
+            <button class="play-button" onclick="playSound('Rocking Hero.m4a', 'rockingHeroAudio')">
+                <i class="fas fa-play icon"></i>
+            </button>
+            <button class="pause-button" onclick="pauseSound('rockingHeroAudio')">
+                <i class="fas fa-pause icon"></i>
+            </button>
+            <button class="restart-button" onclick="restartSound('rockingHeroAudio')">
+                <i class="fas fa-redo icon"></i>
+            </button>
+        </div>
+
+        <div class="button-container">
+            <span class="clip-title">Element Quest</span>
+            <button class="play-button" onclick="playSound('Element Quest.m4a', 'elementQuestAudio')">
+                <i class="fas fa-play icon"></i>
+            </button>
+            <button class="pause-button" onclick="pauseSound('elementQuestAudio')">
+                <i class="fas fa-pause icon"></i>
+            </button>
+            <button class="restart-button" onclick="restartSound('elementQuestAudio')">
+                <i class="fas fa-redo icon"></i>
+            </button>
+        </div>
+
+        <!-- Volume Control -->
+        <div class="volume-control">
+            <span class="clip-title">Volume (0-10)</span>
+            <button class="volume-button" onclick="changeVolume(1)">
+                <i class="fas fa-arrow-up icon"></i> <!-- Fire-themed up arrow -->
+            </button>
+            <button class="volume-button" onclick="changeVolume(-1)">
+                <i class="fas fa-arrow-down icon"></i> <!-- Fire-themed down arrow -->
+            </button>
+            <div class="current-volume">Current Volume: <span id="volumeDisplay">10</span></div> <!-- Display current volume -->
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label for="where">Where?</label>
+        <textarea id="where" rows="1" placeholder="Enter a location for your song..."></textarea>
+        <button id="generateSong">Generate Song</button>
+        <button id="clearButton">Clear</button>
+    </div>
+
+    <div>
+        <h2>Generated Song</h2>
+        <div id="songOutput"></div>
+    </div>
+
+    <div>
+        <h2>Lyrics History</h2>
+        <div id="history"></div>
+    </div>
+
+    <!-- Back to Main Page Button -->
+    <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
+
+    <!-- Comments and Voting Area -->
+    <div class="comments-vote-container">
+        <!-- Comments Box -->
+        <div class="comments-box">
+            <label for="comments">Leave your comments:</label>
+            <textarea id="comments" placeholder="Share your experience..."></textarea>
+            <button id="submitComment">Submit Comment</button>
+        </div>
+
+        <!-- Voting Area -->
+        <div class="vote-area">
+            <h2>Vote for Your Favorite Audio</h2>
+            <div>
+                <span>Desert Legend</span>
+                <button class="vote-button" onclick="vote('Desert Legend')">Vote</button>
+            </div>
+            <div>
+                <span>Emberglow</span>
+                <button class="vote-button" onclick="vote('Emberglow')">Vote</button>
+            </div>
+            <div>
+                <span>Zacember</span>
+                <button class="vote-button" onclick="vote('Zacember')">Vote</button>
+            </div>
+            <div>
+                <span>Rocking Hero</span>
+                <button class="vote-button" onclick="vote('Rocking Hero')">Vote</button>
+            </div>
+            <div>
+                <span>Element Quest</span>
+                <button class="vote-button" onclick="vote('Element Quest')">Vote</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="song.js"></script>
+    
+    <script>
+        let generatedLyrics = ""; // Variable to store generated lyrics
+        let historyCount = 0; // Counter for history entries
+        let currentAudio = null; // Variable to store the currently playing audio
+        let currentVolume = 10; // Variable to store the current volume level (0-10)
+
+        // Generate lyrics based on user input
+        document.getElementById('generateSong').addEventListener('click', function() {
+            const locationInput = document.getElementById('where').value; // Get the input value
+            generatedLyrics = generateLyrics(locationInput); // Call a function to generate actual lyrics based on input
+            document.getElementById('songOutput').textContent = generatedLyrics; // Display lyrics
+            document.getElementById('songOutput').style.display = 'block'; // Show the generated song output
+
+            historyCount++; // Increment history count
+            addToHistory(generatedLyrics); // Add generated lyrics to history
+
+            // Show history section after the second song is generated
+            if (historyCount > 1) {
+                document.getElementById('history').style.display = 'block'; // Show the history section
+            }
+        });
+
+        // Function to generate lyrics based on user input
+        function generateLyrics(location) {
+            return `
+[Intro]
+In the land of ${location}, where the sun shines bright,
+There roams Emberglow, a camel of firelight.
+
+[Verse 1]
+In the vast desert, where sunbeams dance,
+A mythical camel with a fiery glance.
+Its steps echo through the endless sand,
+Carrying tales of old, like a wandering band.
+
+[Verse 2]
+Through ancient dunes, it leaves a trail,
+Each step a story, in the wind it fails.
+With every breath, the heat rises high,
+Its fiery aura, a legend to die.
+
+[Chorus]
+Oh, the mythical camel, so grand and free,
+Roaming through deserts, with a fiery spree.
+Through time and space, it leaves its mark,
+A legend alive, in the desert's dark.
+
+[Chorus]
+In the desert's heart, it roams alone,
+Its fiery glow, a beacon to be known.
+Echoes of the past, visions of the future,
+The mythical camel, a timeless adventure.
+
+[Outro]
+From the olden days to the distant shores,
+Its spirit never fades, forevermore.
+Through the sands of time, it finds its way,
+A desert legend, in the open day.
+            `.trim(); // Return the generated lyrics
+        }
+
+        // Function to add generated lyrics to history
+        function addToHistory(lyrics) {
+            const historyDiv = document.getElementById('history');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            historyItem.textContent = lyrics; // Set the text content to the generated lyrics
+            historyDiv.appendChild(historyItem); // Add the new item to the history
+        }
+
+        // Clear the history
+        document.getElementById('clearButton').addEventListener('click', function() {
+            document.getElementById('history').innerHTML = ''; // Clear the history section
+            historyCount = 0; // Reset history count
+            document.getElementById('history').style.display = 'none'; // Hide the history section
+        });
+
+        // Function to play sound clips
+        function playSound(file, audioId) {
+            if (currentAudio) {
+                currentAudio.pause(); // Pause the currently playing audio
+            }
+            currentAudio = new Audio(file); // Create a new audio object
+            currentAudio.volume = currentVolume / 10; // Set the initial volume (0-1 scale)
+            currentAudio.play(); // Play the audio
+        }
+
+        // Function to pause sound clips
+        function pauseSound(audioId) {
+            if (currentAudio) {
+                currentAudio.pause(); // Pause the audio
+            }
+        }
+
+        // Function to restart sound clips
+        function restartSound(audioId) {
+            if (currentAudio) {
+                currentAudio.currentTime = 0; // Reset the audio to the start
+                currentAudio.play(); // Play the audio
+            }
+        }
+
+        // Function to change volume
+        function changeVolume(change) {
+            currentVolume = Math.min(Math.max(currentVolume + change, 0), 10); // Ensure volume stays between 0 and 10
+            if (currentAudio) {
+                currentAudio.volume = currentVolume / 10; // Set the volume of the current audio (0-1 scale)
+            }
+            document.getElementById('volumeDisplay').textContent = currentVolume; // Update the displayed volume
+        }
+
+        // Voting functionality
+        let votedSongs = new Set(); // To track voted songs
+
+        function vote(song) {
+            if (votedSongs.has(song)) {
+                alert("You have already voted for this song!"); // Alert if already voted
+            } else {
+                votedSongs.add(song); // Add song to voted set
+                alert("Thank you for voting for " + song + "!"); // Thank user for voting
+            }
+        }
+
+        // Handle comment submission
+        document.getElementById('submitComment').addEventListener('click', function() {
+            const comment = document.getElementById('comments').value; // Get comment value
+            if (comment) {
+                alert("Thank you for your comment!"); // Acknowledge comment submission
+                document.getElementById('comments').value = ''; // Clear the comments box
+            } else {
+                alert("Please enter a comment before submitting."); // Alert if empty
+            }
+        });
+    </script>
+</body>
+</html> 

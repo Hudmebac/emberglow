@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Origins of Ralph</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('camel3.png');
+            background-size: cover; /* Ensures the image covers the entire screen */
+            background-position: center;
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-attachment: fixed; /* Keeps the background fixed during scrolling */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        /* Media query for smaller screens */
+        @media (max-width: 600px) {
+            body {
+                background-size: contain; /* Change to contain for smaller screens */
+            }
+        }
+        h1 {
+            color: #ff4500;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .back-button {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #ff6347;
+        }
+        .content-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .global-pause-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 15px;
+            background-color: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: none;
+        }
+        .global-pause-button:hover {
+            background-color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-container">
+        <h1>The Origins of Ralph</h1>
+        <p id="story-text">Once upon a time, in a vast desert, there lived a camel named Ralph. He was just an ordinary camel, traveling with a caravan, carrying goods across the endless sands. Ralph enjoyed the camaraderie of his fellow camels and the adventures of the journey...</p>
+        <p>One evening, as the caravan set up camp, Ralph wandered a bit too far and lost his way. As night fell, an incredible meteor storm lit up the sky, with fireballs streaking across and cracking sounds echoing in the air. It was a sight to behold, but Ralph felt a sense of fear and isolation...</p>
+        <p>In a twist of fate, as the meteors rained down, Ralph was engulfed in a magical energy that transformed him. He emerged from that night not just as a camel, but as a mythical creature with extraordinary fire-oriented powers. This magical transformation was a gift from the ancient spirits of the desert...</p>
+        <p>Join us as we explore Ralph's journey, his adventures, and the challenges he faced in becoming the legendary creature he is known as today.</p>
+        
+        <button id="start-reading" class="back-button">Start Reading</button>
+        <button id="pause-reading" class="back-button" style="display:none;">Pause</button>
+        <button id="restart-reading" class="back-button" style="display:none;">Restart</button>
+        <a href="emberglow.html" class="back-button">Chapter 2: The Rise of Emberglow</a>
+        <a href="index.html" class="back-button" id="back-home">Back to Home</a>
+    </div>
+    
+    <!-- Pause Button in Top Right Corner -->
+    <button id="global-pause" class="global-pause-button" style="display:none;">Pause</button>
+
+    <script>
+        let voices = [];
+        let isVoicesLoaded = false;
+        let speech = null; // Store the SpeechSynthesisUtterance instance
+        let isReading = false; // Track if reading is in progress
+
+        // Load available voices
+        function loadVoices() {
+            voices = window.speechSynthesis.getVoices();
+            isVoicesLoaded = true; // Set flag to indicate voices are loaded
+            console.log(voices); // Log available voices for debugging
+        }
+
+        // Function to start reading
+        function startReading() {
+            if (!isVoicesLoaded) {
+                alert("Voices are still loading. Please try again shortly.");
+                return; // Exit if voices are not loaded
+            }
+
+            // Get all paragraphs in the content container
+            const paragraphs = document.querySelectorAll('.content-container p');
+            let text = '';
+            paragraphs.forEach(p => {
+                text += p.innerText + ' '; // Concatenate text from each paragraph
+            });
+
+            speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'en-US';
+
+            // Select a dramatic voice
+            const dramaticVoice = voices.find(voice => voice.name.includes('Dramatic')) || voices[0]; // Fallback to the first voice
+            speech.voice = dramaticVoice;
+
+            window.speechSynthesis.speak(speech);
+            isReading = true; // Set reading status to true
+
+            // Update button text
+            document.getElementById('start-reading').innerText = 'Stop';
+            document.getElementById('pause-reading').style.display = 'inline-block';
+            document.getElementById('restart-reading').style.display = 'inline-block';
+        }
+
+        // Function to stop reading
+        function stopReading() {
+            window.speechSynthesis.cancel(); // Stop the speech
+            isReading = false; // Set reading status to false
+
+            // Update button text
+            document.getElementById('start-reading').innerText = 'Start Reading';
+            document.getElementById('pause-reading').style.display = 'none';
+            document.getElementById('restart-reading').style.display = 'none';
+        }
+
+        // Function to pause reading
+        function pauseReading() {
+            if (isReading) {
+                window.speechSynthesis.pause(); // Pause the speech
+                document.getElementById('pause-reading').innerText = 'Resume'; // Change button text to Resume
+            } else {
+                window.speechSynthesis.resume(); // Resume the speech
+                document.getElementById('pause-reading').innerText = 'Pause'; // Change button text to Pause
+            }
+            isReading = !isReading; // Toggle reading status
+        }
+
+        // Function to restart reading
+        function restartReading() {
+            stopReading(); // Stop any ongoing reading
+            startReading(); // Start reading again
+        }
+
+        // Set up the event listeners for the buttons
+        document.getElementById('start-reading').addEventListener('click', function() {
+            if (isReading) {
+                stopReading();
+            } else {
+                startReading();
+            }
+        });
+
+        document.getElementById('pause-reading').addEventListener('click', pauseReading);
+        document.getElementById('restart-reading').addEventListener('click', restartReading);
+
+        // Load voices when the page is loaded
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+
+        // Add event listener to pause reading when navigating back to home page
+        document.getElementById('back-home').addEventListener('click', function() {
+            pauseReading();
+        });
+    </script>
+</body>
+</html> 

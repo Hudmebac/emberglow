@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('Desertbg.jpeg'); /* Set your background image here */
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Prevent the background from repeating */
+            background-attachment: fixed; /* Keep the background fixed during scrolling */
+            margin: 0;
+            padding: 20px;
+            color: white; /* Change text color for better visibility */
+        }
+        h1 {
+            color: #ff4500;
+        }
+        .fire-aura {
+            font-size: 3em; /* Increased size for better visibility */
+            text-align: center;
+            color: #ff4500;
+            text-shadow: 
+                0 0 5px #ff4500, 
+                0 0 10px #ff4500, 
+                0 0 15px #ff0000; /* Reduced glowing effect */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 10px; /* Padding around the text */
+            border-radius: 10px; /* Rounded corners */
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .thumbnail {
+            width: 150px;
+            height: auto;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #ff4500;
+            border-radius: 5px;
+            position: relative;
+        }
+        .thumbnail img {
+            width: 100%;
+            height: auto;
+        }
+        .image-info {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 5px;
+        }
+        #imageViewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        #imageViewer img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .add-image {
+            margin-top: 20px;
+        }
+        .feedback {
+            color: green;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .cartoon-ember {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .cartoon-ember video {
+            width: 200px; /* Adjust size as needed */
+            height: auto;
+            border: 2px solid #ff4500;
+            border-radius: 5px;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .back-button:hover {
+            background-color: #e03e00; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Photo Gallery</h1>
+    <div class="gallery" id="gallery"></div>
+
+    <div class="add-image">
+        <input type="text" id="imageLink" placeholder="Enter image URL" />
+        <input type="text" id="imageName" placeholder="Enter image name" />
+        <input type="text" id="imageDescription" placeholder="Enter image description" />
+        <button id="addImageButton">Add Image</button>
+        <div class="feedback" id="feedback"></div>
+        <div class="error" id="error"></div>
+    </div>
+
+    <div id="imageViewer">
+        <span class="close" onclick="closeViewer()">&times;</span>
+        <img id="fullImage" src="" alt="Full Image" />
+    </div>
+
+    <!-- New section for Cartoon Ember -->
+    <div class="cartoon-ember">
+        <h2 class="fire-aura">Emberglow</h2>
+        <video controls>
+            <source src="cartoonember.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Back to Main Page Button -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
+    </div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const imageViewer = document.getElementById('imageViewer');
+        const fullImage = document.getElementById('fullImage');
+        const feedback = document.getElementById('feedback');
+        const error = document.getElementById('error');
+
+        // Load images from local storage or use default images
+        const defaultImages = [
+            { src: 'emberglow.jpg', name: 'Ember Glow', description: 'A glowing ember in the night.' },
+            { src: 'musiccamel.jpg', name: 'Music Camel', description: 'A camel with musical notes.' },
+            { src: 'mythicalcamel.jpeg', name: 'Mythical Camel', description: 'A camel from legends.' },
+            { src: 'camelcaravan.png', name: 'Camel Caravan', description: 'A caravan of camels.' },
+            { src: 'camel.png', name: 'Single Camel', description: 'A lone camel in the desert.' },
+            { src: 'camel1.png', name: 'Camel 1', description: 'A beautiful camel.' },
+            { src: 'camel2.png', name: 'Camel 2', description: 'Another stunning camel.' },
+            { src: 'camel3.png', name: 'Camel 3', description: 'A majestic camel.' },
+            { src: 'elements1.jpg', name: 'Elements 1', description: 'Elements of nature.' },
+            { src: 'elements2.jpg', name: 'Elements 2', description: 'More elements of nature.' },
+            { src: 'spiritofemberglow.jpg', name: 'Spirit of Ember Glow', description: 'The spirit of glowing embers.' },
+            { src: 'ralph2.jpeg', name: 'Ralph 2', description: 'A portrait of Ralph.' },
+            { src: 'ralph.jpeg', name: 'Ralph', description: 'Another portrait of Ralph.' },
+            { src: 'dustyfirecamel.jpeg', name: 'Dusty Fire Camel', description: 'A camel in a dusty environment.' },
+            { src: 'duelest camel.jpeg', name: 'Duelest Camel', description: 'A camel ready for a duel.' }
+        ];
+
+        // Retrieve stored images from local storage
+        const storedImages = JSON.parse(localStorage.getItem('images')) || defaultImages;
+
+        // Function to display images in the gallery
+        function displayImages() {
+            gallery.innerHTML = '';
+            storedImages.forEach(({ src, name, description }) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                thumbnail.onclick = () => openViewer(src);
+                const img = document.createElement('img');
+                img.src = src;
+                const info = document.createElement('div');
+                info.className = 'image-info';
+                info.innerHTML = `<strong>${name}</strong><br>${description}`;
+                thumbnail.appendChild(img);
+                thumbnail.appendChild(info);
+                gallery.appendChild(thumbnail);
+            });
+        }
+
+        // Function to open the image viewer
+        function openViewer(src) {
+            fullImage.src = src;
+            imageViewer.style.display = 'flex';
+        }
+
+        // Function to close the image viewer
+        function closeViewer() {
+            imageViewer.style.display = 'none';
+        }
+
+        // Add new image to the gallery
+        document.getElementById('addImageButton').onclick = () => {
+            const imageLink = document.getElementById('imageLink').value.trim();
+            const imageName = document.getElementById('imageName').value.trim();
+            const imageDescription = document.getElementById('imageDescription').value.trim();
+            feedback.textContent = '';
+            error.textContent = '';
+
+            // Validate URL and details
+            if (!imageLink || !imageName || !imageDescription) {
+                error.textContent = 'Please enter valid image URL, name, and description.';
+                return;
+            }
+            if (storedImages.some(image => image.src === imageLink)) {
+                error.textContent = 'This image is already in the gallery.';
+                return;
+            }
+
+            // Add image and provide feedback
+            const newImage = { src: imageLink, name: imageName, description: imageDescription };
+            storedImages.push(newImage);
+            localStorage.setItem('images', JSON.stringify(storedImages)); // Store updated images in local storage
+            displayImages();
+            document.getElementById('imageLink').value = ''; // Clear input
+            document.getElementById('imageName').value = ''; // Clear input
+            document.getElementById('imageDescription').value = ''; // Clear input
+            feedback.textContent = 'Image added successfully!';
+        };
+
+        // Initial display of images
+        displayImages();
+    </script>
+</body>
+</html> 
