@@ -24,15 +24,50 @@
             width: 100vw; /* Set width to fill the viewport */
         }
         /* Add other styles as needed, similar to emberglow_song.html */
+        /* Add Fire Aura style to buttons */
+        .back-button, .collapsible, button {
+            background-color: #ff4500; /* Fire Aura color */
+            color: white; /* Text color */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Padding */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s; /* Transition effect */
+        }
+
+        .back-button:hover, .collapsible:hover, button:hover {
+            background-color: #ff6347; /* Darker shade on hover */
+        }
+
+        /* Back to Main Page Button Style */
+        .back-button {
+            position: absolute; /* Position it in the top right corner */
+            top: 20px; /* Distance from the top */
+            right: 20px; /* Distance from the right */
+            background-color: #ff4500; /* Fire Aura color */
+            color: white; /* Text color */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Padding */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s; /* Transition effect */
+            font-size: 16px; /* Font size */
+        }
+
+        .back-button:hover {
+            background-color: #ff6347; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
+    <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
+
     <h1>Create Your Emberglow Song</h1>
 
-    <div class="input-group">
+    <div class="input-group" style="margin-bottom: 20px;">
         <label for="where">Where?</label>
-        <textarea id="where" rows="1" placeholder="Enter a location for your song..."></textarea>
-        <button id="generateSong">
+        <textarea id="where" rows="2" placeholder="Enter a location for your song..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+        <button id="generateSong" title="Generate a new song based on the location">
             <i class="fas fa-play"></i> <!-- Play icon -->
         </button>
         <button id="clearButton">
@@ -40,24 +75,16 @@
         </button>
     </div>
 
-    <button class="collapsible">
-        <i class="fas fa-chevron-down"></i> Generated Song
-    </button>
-    <div class="content">
-        <div>
-            <h2>Generated Song</h2>
-            <div id="songOutput"></div>
-        </div>
+    <div class="content" id="generatedSongArea" style="display: none; background: rgba(255, 165, 0, 0.8); padding: 20px; border-radius: 10px;">
+        <h2>Generated Song</h2>
+        <div id="songOutput"></div>
     </div>
 
-    <h2>Lyrics History</h2>
-    <div id="history"></div>
-
-    <!-- Back to Main Page Button -->
-    <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
+    <h2 id="lyricsHistoryHeader" style="display: none;">Lyrics History</h2>
+    <div id="history" style="max-height: 200px; overflow-y: auto; display: none;"></div>
 
     <!-- Link to Comments and Voting page -->
-    <button onclick="window.location.href='comments_voting.html'">Go to Comments and Voting Area</button>
+    <button style="font-size: 16px; background-color: #ff4500; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;" onclick="window.location.href='comments_voting.html'">Go to Comments and Voting Area</button>
 
     <script src="song.js"></script>
     <script>
@@ -65,58 +92,76 @@
         let generatedLyrics = ""; // Variable to store generated lyrics
         let historyCount = 0; // Counter for history entries
 
-        // Generate lyrics based on user input
+        // Update to show the Lyrics History header only when there are entries
+        function updateLyricsHistoryDisplay() {
+            const historyDiv = document.getElementById('history');
+            const header = document.getElementById('lyricsHistoryHeader');
+            if (historyCount > 0) {
+                header.style.display = 'block'; // Show the header
+            } else {
+                header.style.display = 'none'; // Hide the header
+            }
+        }
+
+        // Update the event listener for generating songs
         document.getElementById('generateSong').addEventListener('click', function() {
             const locationInput = document.getElementById('where').value; // Get the input value
             generatedLyrics = generateLyrics(locationInput); // Call a function to generate actual lyrics based on input
-            document.getElementById('songOutput').textContent = generatedLyrics; // Display lyrics
+            document.getElementById('songOutput').innerHTML = generatedLyrics; // Display lyrics
             document.getElementById('songOutput').style.display = 'block'; // Show the generated song output
 
             historyCount++; // Increment history count
             addToHistory(generatedLyrics); // Add generated lyrics to history
 
-            // Show history section after the second song is generated
+            // Show generated song area and history section after the first song is generated
+            if (historyCount > 0) {
+                document.getElementById('generatedSongArea').style.display = 'block'; // Show the generated song area
+            }
             if (historyCount > 1) {
                 document.getElementById('history').style.display = 'block'; // Show the history section
             }
+
+            updateLyricsHistoryDisplay(); // Update the display of the lyrics history header
         });
 
         // Function to generate lyrics based on user input
         function generateLyrics(location) {
             return `
-[Intro]
-In the land of ${location}, where the sun shines bright,
-There roams Emberglow, a camel of firelight.
+<div class="song-section">
+    <h3>Intro</h3>
+    <p>In the land of ${location}, where the sun shines bright,<br>
+    There roams Emberglow, a camel of firelight.</p>
 
-[Verse 1]
-In the vast desert, where sunbeams dance,
-A mythical camel with a fiery glance.
-Its steps echo through the endless sand,
-Carrying tales of old, like a wandering band.
+    <h3>Verse 1</h3>
+    <p>In the vast desert, where sunbeams dance,<br>
+    A mythical camel with a fiery glance.<br>
+    Its steps echo through the endless sand,<br>
+    Carrying tales of old, like a wandering band.</p>
 
-[Verse 2]
-Through ancient dunes, it leaves a trail,
-Each step a story, in the wind it fails.
-With every breath, the heat rises high,
-Its fiery aura, a legend to die.
+    <h3>Verse 2</h3>
+    <p>Through ancient dunes, it leaves a trail,<br>
+    Each step a story, in the wind it fails.<br>
+    With every breath, the heat rises high,<br>
+    Its fiery aura, a legend to die.</p>
 
-[Chorus]
-Oh, the mythical camel, so grand and free,
-Roaming through deserts, with a fiery spree.
-Through time and space, it leaves its mark,
-A legend alive, in the desert's dark.
+    <h3>Chorus</h3>
+    <p>Oh, the mythical camel, so grand and free,<br>
+    Roaming through deserts, with a fiery spree.<br>
+    Through time and space, it leaves its mark,<br>
+    A legend alive, in the desert's dark.</p>
 
-[Chorus]
-In the desert's heart, it roams alone,
-Its fiery glow, a beacon to be known.
-Echoes of the past, visions of the future,
-The mythical camel, a timeless adventure.
+    <h3>Chorus</h3>
+    <p>In the desert's heart, it roams alone,<br>
+    Its fiery glow, a beacon to be known.<br>
+    Echoes of the past, visions of the future,<br>
+    The mythical camel, a timeless adventure.</p>
 
-[Outro]
-From the olden days to the distant shores,
-Its spirit never fades, forevermore.
-Through the sands of time, it finds its way,
-A desert legend, in the open day.
+    <h3>Outro</h3>
+    <p>From the olden days to the distant shores,<br>
+    Its spirit never fades, forevermore.<br>
+    Through the sands of time, it finds its way,<br>
+    A desert legend, in the open day.</p>
+</div>
             `.trim(); // Return the generated lyrics
         }
 
@@ -125,8 +170,9 @@ A desert legend, in the open day.
             const historyDiv = document.getElementById('history');
             const historyItem = document.createElement('div');
             historyItem.className = 'history-item';
-            historyItem.textContent = lyrics; // Set the text content to the generated lyrics
+            historyItem.innerHTML = lyrics; // Set the inner HTML to the formatted lyrics
             historyDiv.appendChild(historyItem); // Add the new item to the history
+            updateLyricsHistoryDisplay(); // Update the display of the lyrics history header
         }
 
         // Clear the history
