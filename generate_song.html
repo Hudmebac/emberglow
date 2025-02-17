@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Emberglow Song</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CDN -->
+    <style>
+        /* Include the same styles as emberglow_song.html */
+        body {
+            background-color: #f0f0f0; /* Light background for a clean look */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for a typewriter feel */
+            padding: 20px;
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items */
+            position: relative; /* Position relative for absolute positioning of notes */
+            overflow: hidden; /* Prevent scrollbars from appearing */
+            background-image: url('musiccamel.jpg'); /* Set the background image to musiccamel.jpg */
+            background-size: cover; /* Cover the entire background */
+            background-repeat: no-repeat; /* Prevent repeating the background */
+            background-position: center; /* Center the background image */
+            height: 100vh; /* Set height to fill the viewport */
+            width: 100vw; /* Set width to fill the viewport */
+        }
+        /* Add other styles as needed, similar to emberglow_song.html */
+    </style>
+</head>
+<body>
+    <h1>Create Your Emberglow Song</h1>
+
+    <div class="input-group">
+        <label for="where">Where?</label>
+        <textarea id="where" rows="1" placeholder="Enter a location for your song..."></textarea>
+        <button id="generateSong">
+            <i class="fas fa-play"></i> <!-- Play icon -->
+        </button>
+        <button id="clearButton">
+            <i class="fas fa-stop"></i> <!-- Stop icon -->
+        </button>
+    </div>
+
+    <button class="collapsible">
+        <i class="fas fa-chevron-down"></i> Generated Song
+    </button>
+    <div class="content">
+        <div>
+            <h2>Generated Song</h2>
+            <div id="songOutput"></div>
+        </div>
+    </div>
+
+    <h2>Lyrics History</h2>
+    <div id="history"></div>
+
+    <!-- Back to Main Page Button -->
+    <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
+
+    <!-- Link to Comments and Voting page -->
+    <button onclick="window.location.href='comments_voting.html'">Go to Comments and Voting Area</button>
+
+    <script src="song.js"></script>
+    <script>
+        // Include the same JavaScript functionality as in emberglow_song.html
+        let generatedLyrics = ""; // Variable to store generated lyrics
+        let historyCount = 0; // Counter for history entries
+
+        // Generate lyrics based on user input
+        document.getElementById('generateSong').addEventListener('click', function() {
+            const locationInput = document.getElementById('where').value; // Get the input value
+            generatedLyrics = generateLyrics(locationInput); // Call a function to generate actual lyrics based on input
+            document.getElementById('songOutput').textContent = generatedLyrics; // Display lyrics
+            document.getElementById('songOutput').style.display = 'block'; // Show the generated song output
+
+            historyCount++; // Increment history count
+            addToHistory(generatedLyrics); // Add generated lyrics to history
+
+            // Show history section after the second song is generated
+            if (historyCount > 1) {
+                document.getElementById('history').style.display = 'block'; // Show the history section
+            }
+        });
+
+        // Function to generate lyrics based on user input
+        function generateLyrics(location) {
+            return `
+[Intro]
+In the land of ${location}, where the sun shines bright,
+There roams Emberglow, a camel of firelight.
+
+[Verse 1]
+In the vast desert, where sunbeams dance,
+A mythical camel with a fiery glance.
+Its steps echo through the endless sand,
+Carrying tales of old, like a wandering band.
+
+[Verse 2]
+Through ancient dunes, it leaves a trail,
+Each step a story, in the wind it fails.
+With every breath, the heat rises high,
+Its fiery aura, a legend to die.
+
+[Chorus]
+Oh, the mythical camel, so grand and free,
+Roaming through deserts, with a fiery spree.
+Through time and space, it leaves its mark,
+A legend alive, in the desert's dark.
+
+[Chorus]
+In the desert's heart, it roams alone,
+Its fiery glow, a beacon to be known.
+Echoes of the past, visions of the future,
+The mythical camel, a timeless adventure.
+
+[Outro]
+From the olden days to the distant shores,
+Its spirit never fades, forevermore.
+Through the sands of time, it finds its way,
+A desert legend, in the open day.
+            `.trim(); // Return the generated lyrics
+        }
+
+        // Function to add generated lyrics to history
+        function addToHistory(lyrics) {
+            const historyDiv = document.getElementById('history');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            historyItem.textContent = lyrics; // Set the text content to the generated lyrics
+            historyDiv.appendChild(historyItem); // Add the new item to the history
+        }
+
+        // Clear the history
+        document.getElementById('clearButton').addEventListener('click', function() {
+            document.getElementById('history').innerHTML = ''; // Clear the history section
+            historyCount = 0; // Reset history count
+            document.getElementById('history').style.display = 'none'; // Hide the history section
+        });
+    </script>
+</body>
+</html> 
