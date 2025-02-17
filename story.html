@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Story</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: url('typewriter.jpg') no-repeat center center fixed; /* Set background image */
+            background-size: cover; /* Cover the entire background */
+            color: #fff; /* Change text color to white for better contrast */
+            padding: 20px;
+            position: relative;
+        }
+        #scrollingText {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 140, 0, 0.8); /* Semi-transparent background for scrolling text */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: scroll 20s linear infinite; /* Slower scrolling */
+            font-weight: bold; /* Make text bold */
+        }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        #storyContent {
+            margin-top: 50px; /* Space for scrolling text */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for content */
+            padding: 20px; /* Padding for content */
+            border-radius: 10px; /* Rounded corners */
+        }
+        #backButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        #restartButton {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .example-text {
+            color: #999;
+            font-size: 0.8em;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        textarea {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for text areas */
+            color: #000; /* Black text for better readability */
+            border: 1px solid #ccc; /* Light border */
+            border-radius: 5px; /* Rounded corners */
+        }
+        /* Fire Aura color for headers */
+        h1, h2 {
+            color: #ff4500; /* Fire Aura color */
+        }
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Reduce padding on mobile */
+            }
+            #storyContent {
+                padding: 15px; /* Reduce padding on mobile */
+            }
+            textarea {
+                font-size: 14px; /* Smaller font size for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scrollingText"></div>
+    <button id="backButton">Back to Main Page</button>
+    
+    <div id="storyContent">
+        <h1>Your Story</h1>
+        
+        <p>A good children's story typically follows a simple structure with a clear beginning (introduction of characters and setting), middle (conflict or problem), and end (resolution), where the protagonist overcomes the challenge and the story wraps up, often with a positive message; this is often called the "three-act structure."</p>
+        
+        <h2>Act 1: Introduction</h2>
+        <textarea id="introductionInput" placeholder="Introduce characters and setting..." rows="5" style="width: 100%;"></textarea>
+        <p id="introduction"></p>
+        <p class="example-text">Example: "Once upon a time, in a land far away, there lived a brave hero named Alex. Alex was known throughout the kingdom for their kindness and courage. One day, while exploring the enchanted forest, Alex discovered a hidden village where magical creatures lived. The villagers were in trouble, and they needed a hero to help them..."</p>
+        
+        <h2>Act 2: Conflict</h2>
+        <textarea id="beginningInput" placeholder="Describe the conflict or problem..." rows="5" style="width: 100%;"></textarea>
+        <p id="beginning"></p>
+        <p class="example-text">Example: "One day, a great challenge arose that threatened the peace of the kingdom. A fierce dragon appeared, demanding tribute from the villagers. The once-happy village was filled with fear, and the villagers turned to Alex for help. They knew they had to confront the dragon to save their home. But how could a single hero stand against such a powerful beast?"</p>
+        
+        <h2>Act 3: Resolution</h2>
+        <textarea id="outcomeInput" placeholder="How does the protagonist overcome the challenge?" rows="5" style="width: 100%;"></textarea>
+        <p id="outcome"></p>
+        <p class="example-text">Example: "With courage and determination, Alex faced the challenge head-on. They devised a clever plan to outsmart the dragon, using their knowledge of the forest to set a trap. When the dragon fell into the trap, Alex spoke to it kindly, discovering that it was not evil but misunderstood. Together, they found a way to resolve the conflict peacefully..."</p>
+        
+        <h2>Ending</h2>
+        <textarea id="endingInput" placeholder="Wrap up the story with a positive message..." rows="5" style="width: 100%;"></textarea>
+        <p id="ending"></p>
+        <p class="example-text">Example: "In the end, the hero learned that true strength comes from within and that friendship is the greatest treasure of all. Alex and the dragon became friends, and together they brought peace back to the village, teaching everyone the importance of understanding and compassion. From that day on, the village thrived, and Alex was celebrated as a true hero..."</p>
+        
+        <button id="restartButton">Restart</button>
+    </div>
+
+    <script>
+        // Random messages for scrolling text
+        const messages = [
+            "Pulitzer Prize incoming",
+            "International Booker Prize",
+            "Mills and Boon Classic",
+            "The Critics are going to love this"
+        ];
+
+        // Function to display a random message
+        function displayRandomMessage() {
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            document.getElementById('scrollingText').innerText = messages[randomIndex];
+            // Change text color randomly
+            const colors = ['#ff4500', '#ffd700', '#ff8c00', '#ffffff'];
+            document.getElementById('scrollingText').style.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Call the function to display a random message
+        displayRandomMessage();
+
+        // Function to generate a dynamic story
+        function generateDynamicStory() {
+            const selectedThemes = JSON.parse(localStorage.getItem('selectedThemes'));
+            const selectedHeroes = JSON.parse(localStorage.getItem('selectedHeroes'));
+
+            // Retrieve the generated story data from localStorage
+            const storyData = JSON.parse(localStorage.getItem('storyData'));
+
+            // Populate the story sections with the generated story
+            if (storyData) {
+                document.getElementById('introductionInput').value = storyData.introduction || "Once upon a time, in a land far away, there lived a brave hero named...";
+                document.getElementById('beginningInput').value = storyData.beginning || "One day, a great challenge arose that threatened the peace of the kingdom...";
+                document.getElementById('outcomeInput').value = storyData.outcome || "With courage and determination, the hero faced the challenge head-on...";
+                document.getElementById('endingInput').value = storyData.ending || "In the end, the hero learned that true strength comes from within and that friendship is the greatest treasure of all.";
+
+                // Display the story
+                document.getElementById('introduction').innerText = storyData.introduction;
+                document.getElementById('beginning').innerText = storyData.beginning;
+                document.getElementById('outcome').innerText = storyData.outcome;
+                document.getElementById('ending').innerText = storyData.ending;
+            } else {
+                // Fallback if no story data is found
+                document.getElementById('introduction').innerText = "No story data found.";
+            }
+        }
+
+        // Call the function to generate the story
+        generateDynamicStory();
+
+        // Event listener for the back button
+        document.getElementById('backButton').onclick = function() {
+            window.location.href = 'index.html';
+        };
+
+        // Event listener for the restart button
+        document.getElementById('restartButton').onclick = function() {
+            window.location.href = 'create_story.html'; // Redirect to create_story.html
+        };
+
+        // Clear placeholder text on focus
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(textarea => {
+            textarea.addEventListener('focus', function() {
+                this.placeholder = '';
+            });
+            textarea.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.placeholder = this.getAttribute('placeholder');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

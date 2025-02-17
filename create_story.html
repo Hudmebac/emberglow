@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Story</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            position: relative; /* Set position to relative for the pseudo-element */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            min-height: 100vh; /* Ensure the body takes full height */
+            margin: 0;
+            padding: 20px;
+            background-color: #c0c0c0; /* Light silver background */
+            color: #1a1a1a; /* Darker text color for better contrast */
+            font-family: 'Courier New', Courier, monospace; /* Typewriter font for all text */
+            font-size: 16px; /* Base font size */
+            line-height: 1.5; /* Increase line height for better readability */
+        }
+
+        /* Pseudo-element for background image */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('typewriter.jpg'); /* Set your typewriter image path */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            opacity: 0.4; /* Adjust opacity for better text visibility */
+            z-index: -1; /* Place it behind other content */
+        }
+
+        h1, h2, p {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Add text shadow for better readability */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2em; /* Adjust heading size if needed */
+        }
+        .theme-container, .hero-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .theme, .hero {
+            background-color: rgba(0, 128, 255, 0.8); /* Semi-transparent blue for buttons */
+            border: none;
+            border-radius: 10px; /* Rounded corners for a modern look */
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s; /* Add transform for hover effect */
+            font-size: 1em;
+        }
+        .theme:hover, .hero:hover {
+            background-color: rgba(0, 102, 204, 0.8); /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        #selectedThemes, #selectedHeroes {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #333;
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            color: black;
+        }
+        #heroInfo {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        #heroSection {
+            display: none; /* Initially hide the hero section */
+        }
+        .styled-checkbox.checked {
+            background-color: #ff8c00; /* Change color when checked */
+        }
+        .theme-slider {
+            display: flex; /* Use flexbox for layout */
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            justify-content: center; /* Center items */
+            width: 100%; /* Full width */
+            max-width: 600px; /* Limit max width */
+        }
+        .theme {
+            width: 120px; /* Set a fixed width for each theme button */
+            margin: 5px; /* Maintain margin */
+        }
+        .styled-checkbox {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff8c00;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        input[type="checkbox"]:checked + label .styled-checkbox {
+            background-color: green; /* Green when selected */
+        }
+        input[type="checkbox"]:not(:checked) + label .styled-checkbox {
+            background-color: red; /* Red when not selected */
+        }
+        #themeTable {
+            width: 100%; /* Full width of the container */
+            border-collapse: collapse;
+            margin: 10px 0; /* Add margin for spacing */
+        }
+        #themeTable th, #themeTable td {
+            padding: 8px; /* Reduced padding for less white space */
+            border: 1px solid #ccc; /* Add border for clarity */
+            text-align: left;
+            width: 50%; /* Set each column to take up half the table width */
+            overflow: hidden; /* Hide overflow */
+            white-space: nowrap; /* Prevent line breaks */
+            text-overflow: ellipsis; /* Show ellipsis for overflow text */
+        }
+        #themeTable th {
+            background-color: #f0f0f0; /* Light background for headers */
+        }
+        /* Add a class for scrolling text */
+        .scrollable-text {
+            overflow: hidden; /* Hide overflow */
+            white-space: nowrap; /* Prevent line breaks */
+            text-overflow: ellipsis; /* Show ellipsis for overflow text */
+            display: block; /* Make it a block element */
+            max-width: 100%; /* Limit to the cell width */
+        }
+        /* Media query for mobile devices */
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px; /* Smaller font size for mobile */
+            }
+            #themeTable th, #themeTable td {
+                padding: 5px; /* Further reduce padding on mobile */
+                width: 50%; /* Maintain column width on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-typewriter"></i> Create Your Story</h1> <!-- Typewriter icon in the title -->
+    <button id="backButton" style="position: absolute; top: 20px; right: 20px; background-color: #ff4500; color: white; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; font-size: 1em;"><i class="fas fa-arrow-left"></i> Back to Main Page</button>
+    
+    <button id="startAgainButton" style="margin-top: 10px; background-color: #ff4500; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em;"><i class="fas fa-redo"></i> Restart</button>
+    
+    <p>Select themes for your story:</p>
+    
+    <div class="theme-slider" id="themeSlider" style="overflow-x: auto; white-space: nowrap; width: 100%; max-width: 600px;">
+        <div class="theme-container" id="themeContainer">
+            <!-- Themes will be dynamically added here as buttons -->
+        </div>
+    </div>
+    
+    <button id="refreshButton" style="margin-top: 10px; background-color: #ff8c00; border: none; border-radius: 5px; color: white; padding: 10px 15px; cursor: pointer; display: flex; align-items: center; transition: background-color 0.3s;">
+        <i class="fas fa-sync-alt" style="margin-right: 5px;"></i> Shuffle
+    </button>
+    <div id="selectedThemes"></div>
+
+    <div id="heroSection"> <!-- Hero section -->
+        <h2><i class="fas fa-user-astronaut"></i> Select Heroes for Your Story</h2>
+        <div class="hero-slider" id="heroSlider" style="overflow-x: auto; white-space: nowrap; width: 100%; max-width: 600px;">
+            <table id="heroTable" style="width: 100%; border-collapse: collapse;">
+                <tbody class="hero-container" id="heroContainer">
+                    <!-- Heroes will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="display: flex; justify-content: center;">
+            <button id="refreshHeroButton" style="margin-top: 10px; background-color: #ff8c00; border: none; border-radius: 5px; color: white; padding: 10px 15px; cursor: pointer; display: flex; align-items: center; transition: background-color 0.3s;">
+                <i class="fas fa-sync-alt" style="margin-right: 5px;"></i> Shuffle Heroes
+            </button>
+        </div>
+        
+        <div id="selectedHeroes"></div>
+        <div id="heroInfo"></div>
+        
+        <div id="ageGroupSection" style="margin-top: 20px;">
+            <h2><i class="fas fa-users"></i> Select Age Group</h2>
+            <select id="ageGroupSelect">
+                <option value="under5">Under 5</option>
+                <option value="5to8">5 to 8</option>
+                <option value="over8">Over 8</option>
+            </select>
+        </div>
+
+        <button id="createStoryButton" style="display: none; margin-top: 20px; background-color: #4CAF50; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+            <i class="fas fa-book"></i> Create Story
+        </button>
+    </div>
+
+    <script>
+        // List of themes suitable for children
+        const themes = [
+            "Adventure", "Friendship", "Courage", "Imagination", "Kindness",
+            "Family", "Teamwork", "Discovery", "Dreams", "Creativity",
+            "Helping others", "Learning", "Fun", "Exploration", "Joy",
+            "Nature", "Animals", "Magic", "Growth", "Celebration",
+            "Hope", "Respect", "Honesty", "Fairness", "Perseverance",
+            "Sharing", "Gratitude", "Understanding", "Unity", "Happiness",
+            "Playfulness", "Adventure in Learning", "Overcoming Challenges",
+            "Believing in Yourself", "Making New Friends", "Helping the Environment",
+            "Caring for Others", "Being Yourself", "Finding Your Passion",
+            "Exploring New Places", "Creating New Things", "Being Brave",
+            "Learning from Mistakes", "Enjoying the Little Things", "Finding Joy in Everyday Life"
+        ];
+
+        // Updated list of superheroes
+        const heroes = [
+            { name: "Superman", info: "My all time favourite superhero, comic book and fictional character..." },
+            { name: "Batman", info: "Currently the coolest superhero around..." },
+            { name: "Spider-Man", info: "Watching the 1996 Spider-Man cartoon..." },
+            { name: "Hal Jordan", info: "Originally my favourite Green Lantern was John Stewart..." },
+            { name: "Thor", info: "His place here is down to JMS' run on the Thor series..." },
+            { name: "Thing", info: "The ever lovin' blue eyed Benjamin Grimm..." },
+            { name: "Mr. Fantastic", info: "The leader of the Fantastic Four..." },
+            { name: "Invisible Woman", info: "A powerful member of the Fantastic Four..." },
+            { name: "Human Torch", info: "The fiery member of the Fantastic Four..." },
+            { name: "Captain America", info: "OK I'm British so the whole American patriot thing isn't why Cap is here..." },
+            { name: "Iron Man", info: "A genius billionaire playboy philanthropist." },
+            { name: "Hawkeye", info: "A master archer and marksman." },
+            { name: "Black Widow", info: "A former KGB assassin and member of the Avengers." },
+            { name: "Doctor Strange", info: "The Sorcerer Supreme." },
+            { name: "Ant-Man", info: "A superhero who can shrink in size." },
+            { name: "Wasp", info: "A founding member of the Avengers." },
+            { name: "Black Panther", info: "The king of Wakanda." },
+            { name: "Captain Marvel", info: "A former Air Force pilot with cosmic powers." },
+            { name: "Green Lantern", info: "A member of the intergalactic police force." },
+            { name: "Aquaman", info: "The king of Atlantis." },
+            { name: "Flash", info: "The fastest man alive." },
+            { name: "Green Arrow", info: "A vigilante who uses archery." },
+            { name: "Shazam", info: "A young boy who can transform into a superhero." },
+            { name: "Daredevil", info: "A blind lawyer who fights crime as a vigilante." },
+            { name: "Luke Cage", info: "A hero with superhuman strength and unbreakable skin." },
+            { name: "Jessica Jones", info: "A private investigator with super strength." },
+            { name: "Moon Knight", info: "A vigilante with multiple identities." },
+            { name: "Ghost Rider", info: "A supernatural hero with a flaming skull." },
+            { name: "Blade", info: "A vampire hunter." },
+            { name: "Silver Surfer", info: "A cosmic hero with the power cosmic." },
+            { name: "Vision", info: "An android and member of the Avengers." },
+            { name: "Scarlet Witch", info: "A powerful sorceress." },
+            { name: "Hawkeye", info: "A master archer and marksman." },
+            { name: "Rogue", info: "A mutant with the ability to absorb powers." },
+            { name: "Gambit", info: "A mutant with the ability to charge objects with kinetic energy." },
+            { name: "Storm", info: "A mutant who can control the weather." },
+            { name: "Cyclops", info: "The leader of the X-Men." },
+            { name: "Jean Grey", info: "A powerful telepath and telekinetic." },
+            { name: "Iceman", info: "A mutant who can control ice." },
+            { name: "Beast", info: "A mutant with enhanced strength and agility." },
+            { name: "Colossus", info: "A mutant who can transform his body into organic steel." },
+            { name: "Nightcrawler", info: "A mutant with teleportation abilities." },
+            { name: "Kitty Pryde", info: "A mutant who can phase through solid objects." },
+            { name: "Psylocke", info: "A mutant with telepathic abilities." },
+            { name: "Emma Frost", info: "A powerful telepath." },
+            { name: "Mystique", info: "A mutant with shapeshifting abilities." },
+            { name: "Magneto", info: "A mutant with the ability to control metal." },
+            { name: "Professor X", info: "The founder of the X-Men." },
+            { name: "Deadpool", info: "The merc with a mouth." },
+            { name: "Wolverine", info: "A mutant with healing powers and retractable claws." },
+            { name: "The Punisher", info: "A vigilante who uses lethal force." },
+            { name: "Catwoman", info: "A skilled thief and anti-hero." },
+            { name: "Harley Quinn", info: "The Joker's girlfriend and a skilled fighter." },
+            { name: "Poison Ivy", info: "A villain with plant-based powers." },
+            { name: "Riddler", info: "A villain known for his riddles." },
+            { name: "Two-Face", info: "A villain with a split personality." },
+            { name: "Joker", info: "Batman's arch-nemesis." },
+            { name: "Lex Luthor", info: "Superman's greatest enemy." },
+            { name: "Green Goblin", info: "Spider-Man's arch-nemesis." },
+            { name: "Venom", info: "A villain with a symbiotic relationship with Spider-Man." },
+            { name: "Doctor Octopus", info: "A villain with mechanical tentacles." },
+            { name: "Kingpin", info: "A powerful crime lord." },
+            { name: "Thanos", info: "A powerful villain seeking the Infinity Stones." },
+            { name: "Loki", info: "The God of Mischief." },
+            { name: "Ultron", info: "A villainous AI created by Tony Stark." },
+            { name: "Red Skull", info: "A villain and enemy of Captain America." },
+            { name: "Hela", info: "The Goddess of Death." },
+            { name: "Kang the Conqueror", info: "A time-traveling villain." },
+            { name: "Galactus", info: "The devourer of worlds." },
+            { name: "Apocalypse", info: "An ancient mutant with immense power." },
+            { name: "Darkseid", info: "A powerful villain from Apokolips." },
+            { name: "Brainiac", info: "An alien android with vast intelligence." },
+            { name: "Sinestro", info: "A former Green Lantern turned villain." },
+            { name: "Deathstroke", info: "A mercenary and assassin." },
+            { name: "Bane", info: "A villain known for his strength." },
+            { name: "Scarecrow", info: "A villain who uses fear as a weapon." },
+            { name: "Poison Ivy", info: "A villain with plant-based powers." },
+            { name: "Raven", info: "A powerful sorceress." },
+            { name: "Starfire", info: "An alien princess with superpowers." },
+            { name: "Beast Boy", info: "A shapeshifting hero." },
+            { name: "Cyborg", info: "A hero with cybernetic enhancements." },
+            { name: "Nightwing", info: "The former Robin, now a hero in his own right." },
+            { name: "Batgirl", info: "A female counterpart to Batman." },
+            { name: "Green Lantern (John Stewart)", info: "A member of the Green Lantern Corps." },
+            { name: "Green Lantern (Guy Gardner)", info: "A member of the Green Lantern Corps." },
+            { name: "Blue Beetle", info: "A hero with an alien scarab." },
+            { name: "Static Shock", info: "A hero with electromagnetic powers." },
+            { name: "Shazam", info: "A young boy who can transform into a superhero." },
+            { name: "The Atom", info: "A hero who can shrink in size." },
+            { name: "Firestorm", info: "A hero with nuclear powers." },
+            { name: "Vixen", info: "A hero who can mimic animal abilities." },
+            { name: "Zatanna", info: "A powerful magician." },
+            { name: "Doctor Fate", info: "A powerful sorcerer." },
+            { name: "The Spectre", info: "The embodiment of God's vengeance." },
+            { name: "Swamp Thing", info: "A creature of the swamp with plant-based powers." },
+            { name: "Hellboy", info: "A demon who fights against supernatural threats." },
+            { name: "Spawn", info: "A former soldier who becomes a hellspawn." },
+            { name: "The Shadow", info: "A vigilante with the power to cloud men's minds." },
+            { name: "The Phantom", info: "A hero who fights crime in the jungle." },
+            { name: "The Spirit", info: "A detective who fights crime." },
+            { name: "Judge Dredd", info: "A law enforcement officer in a dystopian future." },
+            { name: "Hellcat", info: "A superhero with enhanced agility." },
+            { name: "The Question", info: "A vigilante who seeks the truth." },
+            { name: "The Green Hornet", info: "A vigilante who fights crime." },
+        ];
+
+        let currentThemeIndex = 0;
+        const themesPerPage = 10;
+
+        let currentHeroIndex = 0;
+        const heroesPerPage = 10;
+
+        function displayThemes() {
+            const themeContainer = document.getElementById('themeContainer');
+            themeContainer.innerHTML = ""; // Clear previous themes
+
+            // Randomly select 10 themes
+            const shuffledThemes = themes.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+            shuffledThemes.forEach(theme => {
+                const button = document.createElement('button');
+                button.innerText = theme;
+                button.style.margin = '5px';
+                button.style.backgroundColor = '#ff8c00';
+                button.style.color = 'white';
+                button.style.border = 'none';
+                button.style.borderRadius = '5px';
+                button.style.padding = '10px';
+                button.style.cursor = 'pointer';
+
+                // Toggle selection on button click
+                button.onclick = function() {
+                    button.classList.toggle('selected');
+                    updateSelectedThemes();
+                };
+
+                themeContainer.appendChild(button);
+            });
+        }
+
+        function updateSelectedThemes() {
+            const selectedThemesDisplay = document.getElementById('selectedThemes');
+            const selectedThemes = Array.from(document.querySelectorAll('.theme-container button.selected')).map(button => button.innerText);
+            selectedThemesDisplay.innerText = `Selected Themes: ${selectedThemes.join(', ')}`;
+
+            // Show hero section if at least one theme is selected
+            const heroSection = document.getElementById('heroSection');
+            if (selectedThemes.length > 0) {
+                heroSection.style.display = 'block'; // Show the hero section
+                displayHeroes(); // Ensure heroes are displayed when the section is shown
+            } else {
+                heroSection.style.display = 'none'; // Hide the hero section if no themes are selected
+            }
+
+            // Check if both themes and heroes are selected to show the Create Story button
+            checkCreateStoryButtonVisibility();
+        }
+
+        function displayHeroes() {
+            const heroContainer = document.getElementById('heroContainer');
+            heroContainer.innerHTML = ""; // Clear previous heroes
+
+            // Randomly select 10 heroes
+            const shuffledHeroes = heroes.sort(() => 0.5 - Math.random()).slice(0, 10);
+            const rows = Math.ceil(shuffledHeroes.length / 2); // Calculate number of rows needed for 2 columns
+
+            for (let i = 0; i < rows; i++) {
+                const row = document.createElement('tr');
+
+                for (let j = 0; j < 2; j++) { // Change to 2 columns
+                    const index = i * 2 + j; // Update index calculation for 2 columns
+                    if (index < shuffledHeroes.length) {
+                        const hero = shuffledHeroes[index];
+                        const buttonCell = document.createElement('td');
+                        const button = document.createElement('button');
+                        button.innerText = hero.name;
+                        button.style.margin = '5px';
+                        button.style.backgroundColor = '#ff8c00';
+                        button.style.color = 'white';
+                        button.style.border = 'none';
+                        button.style.borderRadius = '5px';
+                        button.style.padding = '10px';
+                        button.style.cursor = 'pointer';
+
+                        // Toggle selection on button click
+                        button.onclick = function() {
+                            button.classList.toggle('selected');
+                            updateSelectedHeroes();
+                        };
+
+                        buttonCell.appendChild(button);
+                        row.appendChild(buttonCell);
+                    }
+                }
+                heroContainer.appendChild(row);
+            }
+        }
+
+        function updateSelectedHeroes() {
+            const selectedHeroesDisplay = document.getElementById('selectedHeroes');
+            const selectedHeroes = Array.from(document.querySelectorAll('.hero-container button.selected')).map(button => button.innerText);
+            selectedHeroesDisplay.innerText = `Selected Heroes: ${selectedHeroes.join(', ')}`;
+
+            // Show the Create Story button only if at least one hero is selected
+            checkCreateStoryButtonVisibility();
+        }
+
+        function checkCreateStoryButtonVisibility() {
+            const selectedThemes = Array.from(document.querySelectorAll('.theme-container button.selected')).map(button => button.innerText);
+            const selectedHeroes = Array.from(document.querySelectorAll('.hero-container button.selected')).map(button => button.innerText);
+            const createStoryButton = document.getElementById('createStoryButton');
+
+            // Show the Create Story button only if at least one theme and one hero are selected
+            if (selectedThemes.length > 0 && selectedHeroes.length > 0) {
+                createStoryButton.style.display = 'block'; // Show the button
+            } else {
+                createStoryButton.style.display = 'none'; // Hide the button if conditions are not met
+            }
+        }
+
+        function generateStory(selectedThemes, selectedHeroes) {
+            const elements = [
+                "friendship", "rivalry", "excitement", "playful humor", 
+                "seriousness", "adventure", "mystery", "courage", "betrayal"
+            ];
+            
+            const totalChapters = 4; // Number of chapters
+            const sentencesPerChapter = Math.floor(Math.random() * 21) + 10; // Random number between 10 and 30 sentences per chapter
+
+            // Generate the story
+            let chapters = [];
+
+            for (let i = 0; i < totalChapters; i++) {
+                let chapter = `Chapter ${i + 1}: `;
+                if (i === 0) {
+                    chapter += `As the story begins, ${selectedHeroes.join(', ')} embark on a journey influenced by the themes of ${selectedThemes.join(', ')}. `;
+                } else {
+                    chapter += `As they continue their journey, they face new challenges that introduce elements of `;
+                    const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                    chapter += `${randomElement}, which forces them to adapt and grow. `;
+                }
+                
+                for (let j = 0; j < sentencesPerChapter; j++) {
+                    const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                    chapter += `Through these experiences, they learn valuable lessons about ${randomElement}. `;
+                }
+
+                // Add a lesson or moral at the end of each chapter
+                if (i === totalChapters - 1) {
+                    chapter += `Ultimately, they realize that true strength comes from within and that every challenge is an opportunity for growth.`;
+                }
+                
+                chapters.push(chapter);
+            }
+            
+            return chapters.join("\n\n");
+        }
+
+        function selectHeroes() {
+            const selectedHeroes = Array.from(document.querySelectorAll('.hero-container button.selected')).map(button => button.innerText);
+            const selectedThemes = Array.from(document.querySelectorAll('.theme-container button.selected')).map(button => button.innerText);
+            const story = generateStory(selectedThemes, selectedHeroes);
+            
+            // Save the story data to localStorage
+            const storyData = {
+                introduction: "This is the introduction to your story.",
+                beginning: "The story begins with...",
+                plot1: "In the first plot, the characters face...",
+                plot2: "In the second plot, they encounter...",
+                outcome: "The outcome of their journey is...",
+                ending: "Ultimately, they learn that..."
+            };
+            
+            // Store the generated story in localStorage
+            localStorage.setItem('storyData', JSON.stringify(storyData));
+
+            // Redirect to the story page
+            window.location.href = 'story.html';
+        }
+
+        document.getElementById('refreshButton').onclick = function() {
+            const selectedThemes = Array.from(document.querySelectorAll('.theme-container button.selected')).map(button => button.innerText);
+            const selectedHeroes = Array.from(document.querySelectorAll('.hero-container button.selected')).map(button => button.innerText);
+            
+            // Increase the current theme index by 10 to show more themes
+            currentThemeIndex += 10;
+            if (currentThemeIndex >= themes.length) {
+                currentThemeIndex = 0; // Reset to the beginning if we exceed the number of themes
+            }
+            displayThemes();
+
+            // Re-check previously selected themes
+            selectedThemes.forEach(theme => {
+                const button = document.querySelector('.theme-container button:contains(' + theme + ')');
+                if (button) {
+                    button.classList.add('selected');
+                }
+            });
+            updateSelectedThemes();
+        };
+
+        document.getElementById('refreshHeroButton').onclick = function() {
+            const selectedHeroes = Array.from(document.querySelectorAll('.hero-container button.selected')).map(button => button.innerText);
+            
+            // Shuffle heroes
+            displayHeroes();
+
+            // Reset the Create Story button visibility
+            checkCreateStoryButtonVisibility();
+        };
+
+        // Add event listener for the start again button
+        document.getElementById('startAgainButton').onclick = function() {
+            // Clear all selections
+            document.querySelectorAll('.theme-container button.selected').forEach(button => button.classList.remove('selected'));
+            document.querySelectorAll('.hero-container button.selected').forEach(button => button.classList.remove('selected'));
+            updateSelectedThemes();
+            updateSelectedHeroes();
+        };
+
+        // Initial display of themes
+        displayThemes();
+
+        // Add event listener for the back button
+        document.getElementById('backButton').onclick = function() {
+            window.location.href = 'index.html';
+        };
+
+        // Add event listener for the create button
+        document.getElementById('createStoryButton').onclick = function() {
+            selectHeroes();
+        };
+
+        // Assuming you have a form or selection mechanism for themes and heroes
+        function saveStoryData() {
+            const selectedThemes = []; // Populate this array based on user selection
+            const selectedHeroes = []; // Populate this array based on user selection
+
+            // Example: selectedThemes.push('Heroic Journey');
+            // Example: selectedHeroes.push({ name: 'HeroName', specialPower: 'Invisibility' });
+
+            // Save to localStorage
+            localStorage.setItem('selectedThemes', JSON.stringify(selectedThemes));
+            localStorage.setItem('selectedHeroes', JSON.stringify(selectedHeroes));
+        }
+
+        // Call this function when the user submits the form or clicks a button to create the story
+        document.getElementById('createStoryButton').onclick = function() {
+            saveStoryData();
+            window.location.href = 'story.html'; // Redirect to story.html after saving
+        };
+    </script>
+</body>
+</html> 
