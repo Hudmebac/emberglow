@@ -322,6 +322,7 @@
             border-radius: 10px; 
             overflow: hidden; 
             border-collapse: collapse;
+            margin-bottom: 20px; /* Space below the table */
         }
         th, td {
             padding: 8px; 
@@ -356,6 +357,31 @@
         .volume-button:hover {
             background-color: #ff6347; /* Darker shade on hover */
         }
+        .tooltip {
+            position: relative; /* Position relative for tooltip */
+            display: inline-block; /* Inline block for tooltip */
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden; /* Hidden by default */
+            width: 120px; /* Width of the tooltip */
+            background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+            color: #fff; /* White text */
+            text-align: center; /* Center text */
+            border-radius: 5px; /* Rounded corners */
+            padding: 5px; /* Padding for tooltip */
+            position: absolute; /* Position absolute for tooltip */
+            z-index: 1; /* On top of other elements */
+            bottom: 125%; /* Position above the text */
+            left: 50%; /* Center the tooltip */
+            margin-left: -60px; /* Adjust for centering */
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s; /* Fade effect */
+            font-size: 0.9em; /* Smaller font size for mobile readability */
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible; /* Show tooltip on hover */
+            opacity: 1; /* Fade in */
+        }
     </style>
 </head>
 <body>
@@ -371,9 +397,10 @@
         <tbody>
             <tr>
                 <td>
-                    <div class="recording-desk">
+                    <div class="recording-desk tooltip">
                         <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
                         <span style="margin-left: 10px; font-weight: bold;">Desert Legend</span>
+                        <span class="tooltiptext">Genre: Rock<br>Length: 3:45</span>
                     </div>
                 </td>
                 <td class="controls">
@@ -390,9 +417,10 @@
             </tr>
             <tr>
                 <td>
-                    <div class="recording-desk">
+                    <div class="recording-desk tooltip">
                         <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
                         <span style="margin-left: 10px; font-weight: bold;">Emberglow</span>
+                        <span class="tooltiptext">Genre: Classic<br>Length: 4:20</span>
                     </div>
                 </td>
                 <td class="controls">
@@ -409,9 +437,10 @@
             </tr>
             <tr>
                 <td>
-                    <div class="recording-desk">
+                    <div class="recording-desk tooltip">
                         <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
                         <span style="margin-left: 10px; font-weight: bold;">Zacember</span>
+                        <span class="tooltiptext">Genre: Jazz<br>Length: 5:10</span>
                     </div>
                 </td>
                 <td class="controls">
@@ -428,9 +457,10 @@
             </tr>
             <tr>
                 <td>
-                    <div class="recording-desk">
+                    <div class="recording-desk tooltip">
                         <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
                         <span style="margin-left: 10px; font-weight: bold;">Rocking Hero</span>
+                        <span class="tooltiptext">Genre: Rock<br>Length: 3:30</span>
                     </div>
                 </td>
                 <td class="controls">
@@ -447,9 +477,10 @@
             </tr>
             <tr>
                 <td>
-                    <div class="recording-desk">
+                    <div class="recording-desk tooltip">
                         <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
                         <span style="margin-left: 10px; font-weight: bold;">Element Quest</span>
+                        <span class="tooltiptext">Genre: Electronic<br>Length: 4:50</span>
                     </div>
                 </td>
                 <td class="controls">
@@ -467,21 +498,31 @@
         </tbody>
     </table>
 
-    <!-- Volume Control -->
-    <div class="volume-control">
-        <span class="volume-title">Volume Control</span>
-        <div class="volume-buttons" style="display: flex; align-items: center;">
-            <button class="volume-button" onclick="changeVolume(1)">
-                <i class="fas fa-arrow-up icon"></i> <!-- Fire-themed up arrow -->
-            </button>
-            <button class="volume-button" onclick="changeVolume(-1)">
-                <i class="fas fa-arrow-down icon"></i> <!-- Fire-themed down arrow -->
-            </button>
-            <div class="current-volume" style="margin-left: 10px; font-size: 1.5em; color: #ff4500; text-shadow: 0 0 5px rgba(255, 69, 0, 0.8), 0 0 10px rgba(255, 69, 0, 0.6);">
-                Current Volume: <span id="volumeDisplay">5</span>
-            </div>
-        </div>
-    </div>
+    <!-- Volume Control in its own table -->
+    <table style="width: auto; background-color: rgba(255, 255, 255, 0.8); border-radius: 10px; overflow: hidden; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center;">Volume Control</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="volume-buttons" style="display: flex; align-items: center;">
+                        <button class="volume-button" onclick="changeVolume(1)">
+                            <i class="fas fa-arrow-up icon"></i> <!-- Fire-themed up arrow -->
+                        </button>
+                        <button class="volume-button" onclick="changeVolume(-1)">
+                            <i class="fas fa-arrow-down icon"></i> <!-- Fire-themed down arrow -->
+                        </button>
+                    </div>
+                </td>
+                <td class="current-volume" style="text-align: center; font-size: 1.5em; color: #ff4500; text-shadow: 0 0 5px rgba(255, 69, 0, 0.8), 0 0 10px rgba(255, 69, 0, 0.6);">
+                    Current Volume: <span id="volumeDisplay">5</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <!-- Back to Main Page Button -->
     <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
