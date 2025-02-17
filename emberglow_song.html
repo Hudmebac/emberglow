@@ -425,42 +425,8 @@
     <!-- Back to Main Page Button -->
     <button class="back-button" onclick="window.location.href='index.html'">Back to Main Page</button>
 
-    <!-- Comments and Voting Area -->
-    <button class="collapsible">
-        <i class="fas fa-chevron-down"></i> Comments and Voting Area
-    </button>
-    <div class="content">
-        <div class="comments-vote-container">
-            <div class="comments-box">
-                <label for="comments">Leave your comments:</label>
-                <textarea id="comments" placeholder="Share your experience..."></textarea>
-                <button id="submitComment">Submit Comment</button>
-            </div>
-            <div class="vote-area">
-                <h2>Vote for Your Favorite Audio</h2>
-                <div>
-                    <span>Desert Legend</span>
-                    <button class="vote-button" onclick="vote('Desert Legend')">Vote</button>
-                </div>
-                <div>
-                    <span>Emberglow</span>
-                    <button class="vote-button" onclick="vote('Emberglow')">Vote</button>
-                </div>
-                <div>
-                    <span>Zacember</span>
-                    <button class="vote-button" onclick="vote('Zacember')">Vote</button>
-                </div>
-                <div>
-                    <span>Rocking Hero</span>
-                    <button class="vote-button" onclick="vote('Rocking Hero')">Vote</button>
-                </div>
-                <div>
-                    <span>Element Quest</span>
-                    <button class="vote-button" onclick="vote('Element Quest')">Vote</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Add a link to the new Comments and Voting page -->
+    <button onclick="window.location.href='comments_voting.html'">Go to Comments and Voting Area</button>
 
     <script src="song.js"></script>
     
@@ -574,29 +540,6 @@ A desert legend, in the open day.
             }
             document.getElementById('volumeDisplay').textContent = currentVolume; // Update the displayed volume
         }
-
-        // Voting functionality
-        let votedSongs = new Set(); // To track voted songs
-
-        function vote(song) {
-            if (votedSongs.has(song)) {
-                alert("You have already voted for this song!"); // Alert if already voted
-            } else {
-                votedSongs.add(song); // Add song to voted set
-                alert("Thank you for voting for " + song + "!"); // Thank user for voting
-            }
-        }
-
-        // Handle comment submission
-        document.getElementById('submitComment').addEventListener('click', function() {
-            const comment = document.getElementById('comments').value; // Get comment value
-            if (comment) {
-                alert("Thank you for your comment!"); // Acknowledge comment submission
-                document.getElementById('comments').value = ''; // Clear the comments box
-            } else {
-                alert("Please enter a comment before submitting."); // Alert if empty
-            }
-        });
 
         // Collapse and expand functionality
         const collapsibles = document.getElementsByClassName("collapsible");

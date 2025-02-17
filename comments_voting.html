@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments and Voting Area</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://example.com/fire-aura-theme.css"> <!-- Replace with actual Fire Aura theme URL -->
+    <style>
+        /* Futuristic styles */
+        body {
+            background-color: #1a1a1a; /* Dark background for a futuristic look */
+            color: #ffffff; /* White text for contrast */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for a typewriter feel */
+            padding: 20px;
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items */
+            position: relative; /* Position relative for absolute positioning of notes */
+            overflow: hidden; /* Prevent scrollbars from appearing */
+            height: 100vh; /* Set height to fill the viewport */
+            width: 100vw; /* Set width to fill the viewport */
+        }
+        .comments-box, .vote-area {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding for inner content */
+            margin: 10px; /* Margin between boxes */
+            width: 80%; /* Width of the boxes */
+        }
+        button {
+            background-color: #ff5722; /* Fire Aura button color */
+            color: #ffffff; /* White text for buttons */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners for buttons */
+            padding: 10px 15px; /* Padding for buttons */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+        button:hover {
+            background-color: #e64a19; /* Darker shade on hover */
+        }
+        /* Add other futuristic styles as needed */
+        .vote-item {
+            display: flex; /* Use flexbox for alignment */
+            justify-content: space-between; /* Space between title and button */
+            align-items: center; /* Center items vertically */
+            margin: 10px 0; /* Margin for spacing */
+        }
+        /* Add this CSS for table layout */
+        table {
+            width: 100%; /* Full width for the table */
+            border-collapse: collapse; /* Collapse borders */
+            margin-top: 20px; /* Margin for spacing */
+        }
+        th, td {
+            padding: 10px; /* Padding for table cells */
+            text-align: left; /* Align text to the left */
+            border-bottom: 1px solid #ffffff; /* Bottom border for rows */
+        }
+        th {
+            background-color: #ff5722; /* Header background color */
+            color: #ffffff; /* Header text color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Comments and Voting Area</h1>
+
+    <div class="comments-vote-container">
+        <div class="comments-box">
+            <label for="comments">Leave your comments:</label>
+            <textarea id="comments" placeholder="Share your experience..."></textarea>
+            <button id="submitComment">Submit Comment</button>
+        </div>
+        <div class="vote-area">
+            <h2>Voting Area</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Created Songs</th>
+                        <th>Voting</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Desert Legend</td>
+                        <td><button class="vote-button" onclick="vote('Desert Legend')">Vote</button></td>
+                        <td><span id="voteCount-Desert Legend">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>Emberglow</td>
+                        <td><button class="vote-button" onclick="vote('Emberglow')">Vote</button></td>
+                        <td><span id="voteCount-Emberglow">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>Zacember</td>
+                        <td><button class="vote-button" onclick="vote('Zacember')">Vote</button></td>
+                        <td><span id="voteCount-Zacember">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>Rocking Hero</td>
+                        <td><button class="vote-button" onclick="vote('Rocking Hero')">Vote</button></td>
+                        <td><span id="voteCount-Rocking Hero">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>Element Quest</td>
+                        <td><button class="vote-button" onclick="vote('Element Quest')">Vote</button></td>
+                        <td><span id="voteCount-Element Quest">0</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Comments Display Area -->
+        <div class="comments-display">
+            <h2>Submitted Comments</h2>
+            <ul id="commentsList"></ul>
+        </div>
+    </div>
+
+    <!-- Back to Main Page Button -->
+    <button onclick="window.location.href='index.html'">Back to Main Page</button>
+
+    <script>
+        let votedSongs = new Set(); // To track voted songs
+        let voteCounts = { // To track vote counts
+            'Desert Legend': 0,
+            'Emberglow': 0,
+            'Zacember': 0,
+            'Rocking Hero': 0,
+            'Element Quest': 0
+        };
+
+        function vote(song) {
+            if (votedSongs.has(song)) {
+                alert("You have already voted for this song!"); // Alert if already voted
+            } else {
+                votedSongs.add(song); // Add song to voted set
+                voteCounts[song]++; // Increment vote count
+                document.getElementById(`voteCount-${song}`).innerText = voteCounts[song]; // Update vote count display
+                alert("Thank you for voting for " + song + "!"); // Thank user for voting
+                
+                // Disable all other vote buttons and hide the voting column
+                const buttons = document.querySelectorAll('.vote-button');
+                const votingCells = document.querySelectorAll('td:nth-child(2)'); // Select all voting cells
+                const votingHeader = document.querySelector('th:nth-child(2)'); // Select the voting header
+                buttons.forEach(button => {
+                    button.disabled = true; // Disable all buttons
+                });
+                votingCells.forEach(cell => {
+                    cell.style.display = 'none'; // Hide voting cells
+                });
+                if (votingHeader) {
+                    votingHeader.style.display = 'none'; // Hide voting header
+                }
+            }
+        }
+
+        // Handle comment submission
+        document.getElementById('submitComment').addEventListener('click', function() {
+            const comment = document.getElementById('comments').value; // Get comment value
+            if (comment) {
+                const timestamp = new Date().toLocaleString(); // Get current timestamp
+                const commentItem = document.createElement('li'); // Create new list item
+                commentItem.textContent = `${timestamp}: ${comment}`; // Set text with timestamp
+                document.getElementById('commentsList').prepend(commentItem); // Add comment to the top of the list
+                alert("Thank you for your comment!"); // Acknowledge comment submission
+                document.getElementById('comments').value = ''; // Clear the comments box
+            } else {
+                alert("Please enter a comment before submitting."); // Alert if empty
+            }
+        });
+    </script>
+</body>
+</html> 
