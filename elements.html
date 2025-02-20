@@ -98,15 +98,30 @@
         .back-button button:hover {
             background-color: #ff6347;
         }
+        /* Adjust pulsing animation for more aggressive effect */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2); /* Increased scale for more aggressive pulsing */
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .pulsing-icon {
+            animation: pulse 1s infinite; /* Reduced duration for faster pulsing */
+        }
     </style>
 </head>
 <body>
     <h1>The Four Elements</h1>
     <div class="menu">
-        <button onclick="showDescription('fire')"><i class="fas fa-fire"></i></button>
-        <button onclick="showDescription('water')"><i class="fas fa-water"></i></button>
-        <button onclick="showDescription('air')"><i class="fas fa-wind"></i></button>
-        <button onclick="showDescription('earth')"><i class="fas fa-globe"></i></button>
+        <button onclick="showDescription('fire')"><i class="fas fa-fire pulsing-icon" style="font-size: 100px;"></i></button>
+        <button onclick="showDescription('water')"><i class="fas fa-water pulsing-icon" style="font-size: 100px;"></i></button>
+        <button onclick="showDescription('air')"><i class="fas fa-wind pulsing-icon" style="font-size: 100px;"></i></button>
+        <button onclick="showDescription('earth')"><i class="fas fa-globe pulsing-icon" style="font-size: 100px;"></i></button>
     </div>
     <div id="fire" class="description">
         <h2>Fire</h2>
@@ -141,8 +156,12 @@
 
     <!-- New container for Fusion of Classical Elements -->
     <div class="fusion-container">
-        <div class="fusion-info">
-            <h2>Fusion of Classical Elements</h2>
+        <h2 onclick="toggleFusion()" style="cursor: pointer; text-align: center;">
+            <span id="fusion-icons">
+                <i class="fas fa-cogs pulsing-icon" style="font-size: 60px; color: #ff4500;"></i>
+            </span>
+        </h2>
+        <div class="fusion-info" style="display: none;">
             <p>In ancient philosophy, the classical elements—fire, air, water, and earth—are fundamental building blocks of nature. Each element is associated with specific qualities that reflect its nature and influence on the world. Understanding these elements provides insight into the ancient worldview and its connection to the physical and metaphysical realms.</p>
             
             <h3>Element Qualities</h3>
@@ -173,6 +192,47 @@
             });
             document.getElementById(element).style.display = 'block'; // Show selected description
         }
+
+        // Function to toggle the visibility of the Fusion section
+        function toggleFusion() {
+            const fusionInfo = document.querySelector('.fusion-info');
+            if (fusionInfo.style.display === 'none') {
+                fusionInfo.style.display = 'block'; // Show the fusion info
+            } else {
+                fusionInfo.style.display = 'none'; // Hide the fusion info
+            }
+        }
+
+        // Function to randomly display two element icons
+        function displayRandomIcons() {
+            const icons = [
+                '<i class="fas fa-fire pulsing-icon" style="font-size: 60px; color: #ff4500;"></i>',
+                '<i class="fas fa-water pulsing-icon" style="font-size: 60px; color: #007bff;"></i>',
+                '<i class="fas fa-wind pulsing-icon" style="font-size: 60px; color: #00bfff;"></i>',
+                '<i class="fas fa-globe pulsing-icon" style="font-size: 60px; color: #8b4513;"></i>'
+            ];
+
+            // Randomly select two unique icons
+            const selectedIcons = [];
+            while (selectedIcons.length < 2) {
+                const randomIndex = Math.floor(Math.random() * icons.length);
+                if (!selectedIcons.includes(icons[randomIndex])) {
+                    selectedIcons.push(icons[randomIndex]);
+                }
+            }
+
+            // Display the selected icons
+            document.getElementById('fusion-icons').innerHTML = selectedIcons.join(' ');
+
+            // Clear icons after 3 seconds and show the fusion icon
+            setTimeout(() => {
+                document.getElementById('fusion-icons').innerHTML = 
+                    '<i class="fas fa-cogs pulsing-icon" style="font-size: 60px; color: #ff4500;"></i>'; // Show fusion icon
+            }, 3000);
+        }
+
+        // Start the random icon display every 6 seconds
+        setInterval(displayRandomIcons, 6000); // 3 seconds for display + 3 seconds for clear
     </script>
 </body>
 </html> 
