@@ -13,7 +13,7 @@
             background-position: center;
             margin: 0;
             padding: 20px;
-            color: #333333;
+            color: white;
         }
         h1 {
             text-align: center;
@@ -113,9 +113,43 @@
         .pulsing-icon {
             animation: pulse 1s infinite; /* Reduced duration for faster pulsing */
         }
+        .navigation-instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for contrast */
+            padding: 15px; /* Add padding for better spacing */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+        }
+        
+        .navigation-instructions p,
+        .navigation-instructions ul {
+            color: #333; /* Change text color to a darker shade for better contrast */
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7); /* Optional: Add a subtle shadow for depth */
+        }
+        
+        .navigation-instructions ul {
+            list-style-type: none; /* Remove default list styling */
+            padding: 0; /* Remove padding */
+        }
+        
+        .navigation-instructions li {
+            margin: 5px 0; /* Add spacing between list items */
+        }
     </style>
 </head>
 <body>
+    <div class="navigation-instructions">
+        <p>Welcome to The Four Elements! Use the buttons below to explore each element:</p>
+        <ul>
+            <li><strong>Fire:</strong> Click the fire icon to learn about fire.</li>
+            <li><strong>Water:</strong> Click the water icon to learn about water.</li>
+            <li><strong>Air:</strong> Click the air icon to learn about air.</li>
+            <li><strong>Earth:</strong> Click the earth icon to learn about earth.</li>
+            <li><strong>Fusion:</strong> Click the Fusion button to learn about the combination of elements.</li>
+        </ul>
+        <p>Click the "Back to Main Page" button at the bottom to return to the main menu.</p>
+    </div>
     <h1>The Four Elements</h1>
     <div class="menu">
         <button onclick="showDescription('fire')"><i class="fas fa-fire pulsing-icon" style="font-size: 50px;"></i></button>

@@ -88,16 +88,15 @@
         .styled-checkbox.checked {
             background-color: #ff8c00; /* Change color when checked */
         }
-        .theme-slider {
-            display: flex; /* Use flexbox for layout */
-            flex-wrap: wrap; /* Allow items to wrap to the next line */
-            justify-content: center; /* Center items */
+        .theme-slider, .hero-slider {
+            overflow-x: auto; /* Allow horizontal scrolling */
+            white-space: nowrap; /* Prevent line breaks */
             width: 100%; /* Full width */
             max-width: 600px; /* Limit max width */
         }
-        .theme {
-            width: 120px; /* Set a fixed width for each theme button */
-            margin: 5px; /* Maintain margin */
+        .theme, .hero {
+            flex: 0 0 auto; /* Prevent flex items from shrinking */
+            width: 120px; /* Fixed width for buttons */
         }
         .styled-checkbox {
             display: inline-block;
@@ -144,6 +143,9 @@
         @media (max-width: 600px) {
             body {
                 font-size: 14px; /* Smaller font size for mobile */
+            }
+            .theme-slider, .hero-slider {
+                padding: 10px; /* Add padding for better touch targets */
             }
             #themeTable th, #themeTable td {
                 padding: 5px; /* Further reduce padding on mobile */
