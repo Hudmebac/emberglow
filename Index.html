@@ -22,6 +22,9 @@
         .sidebar {
             width: 100%;
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .sidebar button {
             width: 90%;
@@ -50,7 +53,7 @@
         }
         canvas {
             border: 1px solid #fff;
-            max-width: 800px;
+            max-width: 100%;
             height: auto;
         }
         h1 {
@@ -58,7 +61,7 @@
             font-size: 3em;
             text-shadow: none;
             animation: pulse 1.5s infinite;
-            margin: 20px 0; /* Add margin for spacing */
+            margin: 20px 0;
             z-index: 10;
         }
         .bio-container {
@@ -87,15 +90,15 @@
         }
         @media (max-width: 768px) {
             .sidebar {
-                flex-direction: row;
-                overflow-x: auto;
+                flex-direction: column;
+                align-items: center;
             }
             h1 {
                 font-size: 2em;
+                text-align: center;
             }
-            canvas {
-                width: 100%;
-                height: auto;
+            .container {
+                justify-content: center;
             }
         }
     </style>
@@ -103,21 +106,28 @@
 <body>
     <div class="sidebar">
         <button onclick="location.href='origins.html'"><i class="fas fa-book"></i> Origins</button>
+        <button onclick="location.href='emberglow_story.html'"><i class="fas fa-book-open"></i> Emberglow Story</button>
         <button onclick="location.href='create_story.html'"><i class="fas fa-pencil-alt"></i> Create a Story</button>
         <button onclick="location.href='take_photo.html'"><i class="fas fa-camera"></i> Take a Photo</button>
         <button onclick="location.href='elements.html'"><i class="fas fa-flask"></i> The Elements</button>
         <button onclick="location.href='emberglow_song.html'"><i class="fas fa-music"></i> Emberglow Song</button>
         <button onclick="location.href='about.html'"><i class="fas fa-user"></i> About the Creator</button>
-        <button onclick="location.href='emberglow_story.html'"><i class="fas fa-book-open"></i> Emberglow Story</button>
     </div>
-    <h1>Emberglow</h1>
-    <div class="container">
+    <h1 onclick="toggleContainer()">Emberglow</h1>
+    <div class="container" id="emberglowContainer" style="display: none;">
         <canvas id="canvas" width="800" height="600"></canvas>
     </div>
     <script src="script.js"></script>
     <script>
+        function toggleContainer() {
+            const container = document.getElementById('emberglowContainer');
+            container.style.display = container.style.display === 'none' ? 'flex' : 'none';
+        }
+
         function showComingSoonMessage() {
-            alert("We have not built this yet, be patient."); // Display alert message
+            alert("We have not built this yet, be patient.");
+            const container = document.getElementById('emberglowContainer');
+            container.style.display = 'none';
         }
     </script>
 </body>
