@@ -38,6 +38,47 @@
             position: relative;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
         }
+        /* Ribbon styles */
+        .ribbon {
+            position: absolute;
+            top: 50%; /* Position it in the middle of the cake */
+            left: 0;
+            right: 0;
+            height: 20px; /* Height of the ribbon */
+            background-color: #ff4d94; /* Ribbon color */
+            border-radius: 10px; /* Rounded corners */
+            transform: translateY(-50%); /* Center the ribbon vertically */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+        }
+        /* Bow styles */
+        .bow {
+            position: absolute;
+            top: 50%; /* Position it in the middle of the ribbon */
+            left: 50%; /* Center it horizontally */
+            width: 70px; /* Increased width of the bow */
+            height: 35px; /* Increased height of the bow */
+            background-color: #ff4d94; /* Bow color */
+            border-radius: 5px; /* Rounded corners */
+            transform: translate(-50%, -50%); /* Center the bow */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+        }
+        /* Bow knot styles */
+        .bow::before, .bow::after {
+            content: '';
+            position: absolute;
+            width: 10px; /* Width of the bow knot */
+            height: 10px; /* Height of the bow knot */
+            background-color: #ff4d94; /* Bow knot color */
+            border-radius: 50%; /* Make it round */
+            top: 50%; /* Center vertically */
+            transform: translateY(-50%); /* Center the knot */
+        }
+        .bow::before {
+            left: -5px; /* Position left knot */
+        }
+        .bow::after {
+            right: -5px; /* Position right knot */
+        }
         /* Optional: Add a decorative layer on top */
         #cake::before {
             content: '';
@@ -131,12 +172,31 @@
                 opacity: 0; /* Fade out */
             }
         }
+        #happyBirthdayMessage {
+            position: absolute;
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -100%); /* Start off-screen above */
+            font-size: 48px; /* Large font size */
+            color: #ff69b4; /* Pink color */
+            opacity: 0; /* Start invisible */
+            transition: transform 1s ease, opacity 1s ease; /* Smooth transition */
+        }
+        #refreshIcon {
+            cursor: pointer; /* Pointer cursor on hover */
+            margin-top: 20px; /* Space above the icon */
+            font-size: 24px; /* Size of the icon */
+            color: #ff69b4; /* Color of the icon */
+        }
     </style>
 </head>
 <body>
     <h1>Happy 24th Birthday, April!</h1>
     <div id="balloons"></div>
     <div id="cake">
+        <div class="ribbon">
+            <div class="bow"></div>
+        </div>
         <div id="candles">
             <!-- Generate 10 candles -->
             <script>
@@ -159,11 +219,19 @@
     <button id="blowButton">Blow Out Candles</button> <!-- Button to blow out candles -->
     <button id="singButton">Sing Happy Birthday</button>
     <button id="relightButton">Relight Candles</button> <!-- Button to relight candles -->
+    <button id="eatCakeButton">Eat Cake</button> <!-- Button to eat the cake -->
     <audio id="birthdaySong" src="happybirthdayapril.mp3"></audio>
 
     <!-- Add the message below the buttons -->
     <div id="loveMessage" style="margin-top: 20px; font-size: 24px; color: #ff69b4; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); font-family: 'Comic Sans MS', cursive, sans-serif;">
-        Love From Zac
+        Love From Zac, Craig and Debbie
+    </div>
+
+    <div id="warningMessage" style="color: red; font-size: 20px; margin-top: 10px; display: none;"></div> <!-- Warning message div -->
+
+    <!-- Add a refresh icon -->
+    <div id="refreshIcon" title="Refresh the cake">
+        🔄 <!-- You can replace this with an actual image or font icon if desired -->
     </div>
 
     <script>
@@ -228,6 +296,9 @@
         // Blow out candles functionality
         document.getElementById('blowButton').addEventListener('click', function() {
             const candles = document.querySelectorAll('.candle');
+            const flamesVisible = Array.from(candles).some(candle => candle.querySelector('.flame').style.display !== 'none');
+
+            // Proceed to blow out the candles
             candles.forEach(candle => {
                 const flame = candle.querySelector('.flame');
                 flame.style.display = 'none'; // Hide the flame
@@ -247,6 +318,78 @@
                 candle.querySelector('.flame').style.display = 'block'; // Show the flame again
             });
         });
+
+        // Eat Cake functionality
+        document.getElementById('eatCakeButton').addEventListener('click', function() {
+            const candles = document.querySelectorAll('.candle');
+            const flamesVisible = Array.from(candles).some(candle => candle.querySelector('.flame').style.display !== 'none');
+
+            if (flamesVisible) {
+                // Display warning message if candles are still lit
+                const warningMessage = document.getElementById('warningMessage');
+                warningMessage.innerHTML = "You need to blow out the candles before eating the cake!";
+                warningMessage.style.display = 'block'; // Show the warning message
+            } else {
+                // Hide the warning message if candles are already blown out
+                const warningMessage = document.getElementById('warningMessage');
+                warningMessage.style.display = 'none'; // Hide the warning message
+
+                // Proceed to eat the cake
+                // Remove candles immediately
+                candles.forEach(candle => {
+                    candle.remove(); // Remove candle from the DOM
+                });
+
+                // Slow down the eating effect for the cake
+                const cake = document.getElementById('cake');
+                let width = cake.offsetWidth; // Get the current width of the cake
+                let opacity = 1; // Start with full opacity
+                const interval = setInterval(() => {
+                    width -= 10; // Decrease width by 10 pixels
+                    opacity -= 0.1; // Decrease opacity by 10%
+                    
+                    if (width <= 0) {
+                        clearInterval(interval); // Stop the interval when fully removed
+                        cake.remove(); // Remove the cake from the DOM
+                        // Update the message to reflect the new text
+                        const refreshMessage = document.createElement('div');
+                        refreshMessage.innerHTML = '<p>The cake has been eaten! Click Refresh to age another year.</p>'; // Updated message
+                        document.body.appendChild(refreshMessage); // Append below all text
+
+                        // Trigger the Happy Birthday message to scroll into view
+                        // const happyBirthdayMessage = document.createElement('div');
+                        // happyBirthdayMessage.id = 'happyBirthdayMessage';
+                        // happyBirthdayMessage.innerHTML = 'Happy Birthday!!!';
+                        // Append the message below the cake eaten message
+                        // document.body.appendChild(happyBirthdayMessage); // Append below the refresh message
+                    } else {
+                        // Update the width and opacity of the cake
+                        cake.style.width = width + 'px'; // Reduce the width of the cake
+                        cake.style.opacity = opacity; // Fade out cake
+                    }
+                }, 500); // Run every 0.5 seconds
+            }
+        });
+
+        // Refresh functionality
+        document.getElementById('refreshIcon').addEventListener('click', function() {
+            location.reload(); // Refresh the page to its original state
+        });
+
+        function handleBlowOutCandles() {
+            // existing code...
+            // Ensure "Close one Message" is not displayed when blowing out candles
+            // ...
+        }
+
+        function handleEatCake() {
+            // existing code...
+            if (flamesExist) {
+                // Display "Close one Message" only if flames still exist
+                displayCloseOneMessage();
+            }
+            // ...
+        }
     </script>
 </body>
 </html>
