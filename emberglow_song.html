@@ -381,6 +381,37 @@
             visibility: visible; /* Show tooltip on hover */
             opacity: 1; /* Fade in */
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -412,6 +443,9 @@
                     <button class="restart-button" onclick="restartSound('desertAudio')">
                         <i class="fas fa-redo icon"></i>
                     </button>
+                    <button class="lyrics-button" onclick="showLyrics('Desert Legend')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
+                    </button>
                 </td>
             </tr>
             <tr>
@@ -431,6 +465,9 @@
                     </button>
                     <button class="restart-button" onclick="restartSound('emberAudio')">
                         <i class="fas fa-redo icon"></i>
+                    </button>
+                    <button class="lyrics-button" onclick="showLyrics('Emberglow')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
                     </button>
                 </td>
             </tr>
@@ -452,6 +489,9 @@
                     <button class="restart-button" onclick="restartSound('zacemberAudio')">
                         <i class="fas fa-redo icon"></i>
                     </button>
+                    <button class="lyrics-button" onclick="showLyrics('Zacember')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
+                    </button>
                 </td>
             </tr>
             <tr>
@@ -472,6 +512,9 @@
                     <button class="restart-button" onclick="restartSound('rockingHeroAudio')">
                         <i class="fas fa-redo icon"></i>
                     </button>
+                    <button class="lyrics-button" onclick="showLyrics('Rocking Hero')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
+                    </button>
                 </td>
             </tr>
             <tr>
@@ -491,6 +534,9 @@
                     </button>
                     <button class="restart-button" onclick="restartSound('elementQuestAudio')">
                         <i class="fas fa-redo icon"></i>
+                    </button>
+                    <button class="lyrics-button" onclick="showLyrics('Element Quest')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
                     </button>
                 </td>
             </tr>
@@ -531,6 +577,14 @@
 
     <!-- Add a link to the new Generate Song page -->
     <button onclick="window.location.href='generate_song.html'">Go to Generate Song Page</button>
+
+    <div id="lyricsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLyrics()">&times;</span>
+            <h2 id="lyricsTitle"></h2>
+            <pre id="lyricsText"></pre>
+        </div>
+    </div>
 
     <script src="song.js"></script>
     
@@ -643,6 +697,138 @@ A desert legend, in the open day.
                 currentAudio.volume = currentVolume / 10; // Set the volume of the current audio (0-1 scale)
             }
             document.getElementById('volumeDisplay').textContent = currentVolume; // Update the displayed volume
+        }
+
+        // Function to show lyrics for a specific song
+        function showLyrics(songTitle) {
+            const lyrics = getLyrics(songTitle); // Get the lyrics based on the song title
+            document.getElementById('lyricsTitle').textContent = songTitle; // Set the title
+            document.getElementById('lyricsText').textContent = lyrics; // Set the lyrics text
+            document.getElementById('lyricsModal').style.display = "block"; // Show the modal
+        }
+
+        // Function to close the lyrics modal
+        function closeLyrics() {
+            document.getElementById('lyricsModal').style.display = "none"; // Hide the modal
+        }
+
+        // Function to get lyrics based on song title
+        function getLyrics(songTitle) {
+            const lyricsMap = {
+                'Desert Legend': `
+[Intro]
+[Verse]
+In the vast desert, where sunbeams dance
+A mythical camel with fiery glance
+Its steps echo through the endless sand
+Carrying tales of old, like a wandering band
+[Verse]
+Through ancient dunes, it leaves a trail
+Each step a story, in the wind it fails
+With every breath, the heat rises high
+Its fiery aura, a legend to die
+[Chorus]
+Oh, the mythical camel, so grand and free
+Roaming through deserts, with a fiery spree
+Through time and space, it leaves its mark
+A legend alive, in the desert's dark
+[Chorus]
+In the desert's heart, it roams alone
+Its fiery glow, a beacon to be known
+Echoes of the past, visions of the future
+The mythical camel, a timeless adventure
+[Bridge]
+From the olden days to the distant shores
+Its spirit never fades, forevermore
+Through the sands of time, it finds its way
+A desert legend, in the open day
+[Verse]
+Through the shifting winds, it finds its path
+With tales of old, it shares its wrath
+In the silence, it whispers to the night
+A mythical camel, in the desert's light
+[Verse]
+Through the burning sun, it stands so tall
+Its fiery aura, a sight to behold
+A symbol of strength, in the vast expanse
+The mythical camel, in the desert's trance
+[Chorus]
+Oh, the mythical camel, so bold and free
+Roaming through deserts, with a fiery spree
+Through time and space, it leaves its mark
+A legend alive, in the desert's dark
+[Chorus]
+In the desert's heart, it roams alone
+Its fiery glow, a beacon to be known
+Echoes of the past, visions of the future
+The mythical camel, a timeless adventure
+[Outro]
+            `.trim(),
+                'Emberglow': `
+[Intro]
+[Verse]
+In the heart of the ember glow,
+Where the fire and the shadows flow,
+A tale unfolds of a hero's quest,
+In the warmth of the flames, they find their rest.
+[Verse]
+Through the night, the embers dance,
+Guiding the lost with a fiery glance,
+With every flicker, a story is told,
+Of courage and dreams, of hearts so bold.
+[Chorus]
+Oh, the ember glow, a beacon bright,
+Illuminating paths in the darkest night,
+With every spark, a new hope ignites,
+In the warmth of the fire, the future ignites.
+[Chorus]
+In the glow of the embers, we find our way,
+Through trials and tribulations, come what may,
+With the fire in our hearts, we rise and soar,
+In the ember glow, we are forevermore.
+[Bridge]
+From the ashes, we rise anew,
+With the strength of the fire, we break through,
+In the warmth of the glow, we stand as one,
+Together we shine, like the morning sun.
+[Verse]
+Through the flames, our spirits soar,
+In the ember glow, we are forevermore,
+With every heartbeat, we feel alive,
+In the warmth of the fire, we thrive.
+[Verse]
+So let the embers guide our way,
+Through the night and into the day,
+With the fire in our hearts, we will not fall,
+In the ember glow, we will conquer all.
+[Chorus]
+Oh, the ember glow, a beacon bright,
+Illuminating paths in the darkest night,
+With every spark, a new hope ignites,
+In the warmth of the fire, the future ignites.
+[Chorus]
+In the glow of the embers, we find our way,
+Through trials and tribulations, come what may,
+With the fire in our hearts, we rise and soar,
+In the ember glow, we are forevermore.
+[Outro]
+            `.trim(),
+                'Zacember': `
+Ember glow, O -O - O, 
+For energy of a starry skies.. 
+Emberglow, Go - O - O,
+What ever the rain blows down,
+Emberglow when the time goes, 
+Puff Puff, :) Emberglow this is just gibberish but funny,,,,, 
+bonnie bit of sand
+Give me a break
+I am only 8 and doing this on the fly
+Love you Zac :) 
+            `.trim(),
+                'Rocking Hero': `Lyrics for Rocking Hero...`,
+                'Element Quest': `Lyrics for Element Quest...`
+            };
+            return lyricsMap[songTitle] || "Lyrics not found."; // Return lyrics or a default message
         }
     </script>
 </body>
