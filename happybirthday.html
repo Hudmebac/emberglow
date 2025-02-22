@@ -62,6 +62,16 @@
             margin: 0 2px;
             position: absolute;
             bottom: 0;
+            border: 2px solid #fff; /* Add a white border */
+            border-radius: 5px; /* Optional: rounded corners for the border */
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            20% { opacity: 0.8; }
+            40% { opacity: 1; }
+            60% { opacity: 0.9; }
+            80% { opacity: 1; }
+            100% { opacity: 0.7; }
         }
         .flame {
             width: 24px;
@@ -72,6 +82,9 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
+            border: 2px solid #fff; /* Add a white border */
+            box-shadow: 0 0 5px rgba(255, 204, 0, 0.7); /* Optional: add a glow effect */
+            animation: flicker 0.5s infinite; /* Apply flicker animation */
         }
         .string {
             width: 2px;
@@ -96,6 +109,27 @@
         button:hover {
             background-color: #ff4d94; /* Darker pink on hover */
             transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+        .smoke {
+            width: 10px; /* Width of the smoke */
+            height: 10px; /* Height of the smoke */
+            background-color: rgba(255, 255, 255, 0.7); /* Light gray color for smoke */
+            border-radius: 50%; /* Make it round */
+            position: absolute;
+            bottom: 40px; /* Position above the candle */
+            opacity: 0; /* Start invisible */
+            animation: rise 1s forwards; /* Apply rise animation */
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0);
+                opacity: 1; /* Fully visible at the start */
+            }
+            100% {
+                transform: translateY(-50px); /* Move up */
+                opacity: 0; /* Fade out */
+            }
         }
     </style>
 </head>
@@ -195,7 +229,14 @@
         document.getElementById('blowButton').addEventListener('click', function() {
             const candles = document.querySelectorAll('.candle');
             candles.forEach(candle => {
-                candle.querySelector('.flame').style.display = 'none'; // Hide the flame
+                const flame = candle.querySelector('.flame');
+                flame.style.display = 'none'; // Hide the flame
+
+                // Create smoke effect
+                const smoke = document.createElement('div');
+                smoke.className = 'smoke';
+                smoke.style.left = flame.style.left; // Position smoke above the candle
+                candle.appendChild(smoke); // Append smoke to the candle
             });
         });
 
