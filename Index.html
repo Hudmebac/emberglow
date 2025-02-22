@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desert Themed Emberglow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-y: auto;
+            background-image: url('desert-background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+        .sidebar {
+            width: 100%;
+            margin: 0;
+        }
+        .sidebar button {
+            width: 90%;
+            margin: 10px auto;
+            background-color: #ff8c00;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.5em;
+            padding: 15px 40px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 69, 0, 0.8);
+        }
+        .sidebar button:hover {
+            background-color: #ffb300;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 69, 0, 1);
+        }
+        .container {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        canvas {
+            border: 1px solid #fff;
+            max-width: 800px;
+            height: auto;
+        }
+        h1 {
+            color: rgba(255, 204, 0, 0.8);
+            font-size: 3em;
+            text-shadow: none;
+            animation: pulse 1.5s infinite;
+            margin: 20px 0; /* Add margin for spacing */
+            z-index: 10;
+        }
+        .bio-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
+            }
+            50% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px rgba(255, 69, 0, 1), 0 0 30px rgba(255, 0, 0, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            canvas {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <button onclick="location.href='origins.html'"><i class="fas fa-book"></i> Origins</button>
+        <button onclick="location.href='create_story.html'"><i class="fas fa-pencil-alt"></i> Create a Story</button>
+        <button onclick="location.href='take_photo.html'"><i class="fas fa-camera"></i> Take a Photo</button>
+        <button onclick="location.href='elements.html'"><i class="fas fa-flask"></i> The Elements</button>
+        <button onclick="location.href='emberglow_song.html'"><i class="fas fa-music"></i> Emberglow Song</button>
+        <button onclick="location.href='about.html'"><i class="fas fa-user"></i> About the Creator</button>
+        <button onclick="location.href='emberglow_story.html'"><i class="fas fa-book-open"></i> Emberglow Story</button>
+    </div>
+    <h1>Emberglow</h1>
+    <div class="container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        function showComingSoonMessage() {
+            alert("We have not built this yet, be patient."); // Display alert message
+        }
+    </script>
+</body>
+</html>
