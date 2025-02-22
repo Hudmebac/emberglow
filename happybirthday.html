@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday April!</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #f0e68c;
+        }
+        #balloons {
+            position: relative;
+            height: 300px;
+        }
+        .balloon {
+            width: 50px;
+            height: 80px;
+            border-radius: 25px;
+            background-color: #ff4d4d;
+            position: absolute;
+            bottom: 0;
+            animation: float 5s infinite;
+            opacity: 0.5;
+            z-index: -1;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(-10px, -30px); } /* Random horizontal and vertical movement */
+            100% { transform: translate(0, 0); }
+        }
+        #cake {
+            margin: 20px auto;
+            width: 200px;
+            height: 160px;
+            background: linear-gradient(to top, #ffcc00, #ff66b2); /* Gradient from yellow to pink */
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+        }
+        /* Optional: Add a decorative layer on top */
+        #cake::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: #ff66b2; /* Pink layer */
+            border-radius: 10px 10px 0 0; /* Rounded top corners */
+        }
+        #candles {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            width: 100%;
+        }
+        .candle {
+            width: 10px;
+            height: 40px;
+            background-color: #ff0000;
+            margin: 0 2px;
+            position: absolute;
+            bottom: 0;
+        }
+        .flame {
+            width: 24px;
+            height: 30px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .string {
+            width: 2px;
+            height: 50px;
+            background-color: #000;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        button {
+            background-color: #ff66b2; /* Pink background */
+            color: white; /* White text color */
+            border: none; /* Remove default border */
+            border-radius: 25px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for button size */
+            font-size: 18px; /* Font size */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition for effects */
+        }
+
+        button:hover {
+            background-color: #ff4d94; /* Darker pink on hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy 24th Birthday, April!</h1>
+    <div id="balloons"></div>
+    <div id="cake">
+        <div id="candles">
+            <!-- Generate 10 candles -->
+            <script>
+                const candlesContainer = document.getElementById('candles');
+                for (let i = 0; i < 10; i++) {
+                    const candle = document.createElement('div');
+                    candle.className = 'candle';
+                    candle.style.left = (i * 20) + 'px';
+                    candlesContainer.appendChild(candle);
+
+                    // Create and append the flame
+                    const flame = document.createElement('div');
+                    flame.className = 'flame';
+                    flame.style.bottom = '50px';
+                    candle.appendChild(flame);
+                }
+            </script>
+        </div>
+    </div>
+    <button id="blowButton">Blow Out Candles</button> <!-- Button to blow out candles -->
+    <button id="singButton">Sing Happy Birthday</button>
+    <button id="relightButton">Relight Candles</button> <!-- Button to relight candles -->
+    <audio id="birthdaySong" src="happybirthdayapril.mp3"></audio>
+
+    <!-- Add the message below the buttons -->
+    <div id="loveMessage" style="margin-top: 20px; font-size: 24px; color: #ff69b4; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); font-family: 'Comic Sans MS', cursive, sans-serif;">
+        Love From Zac
+    </div>
+
+    <script>
+        // Create balloons
+        const balloonColors = ['#ff4d4d', '#ffcc00', '#4dff4d', '#4d4dff', '#ff4dff'];
+        const balloonsContainer = document.getElementById('balloons');
+
+        // Generate 10 balloons on the left
+        for (let i = 0; i < 10; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            
+            // Position balloons on the left side of the cake with more random spacing
+            balloon.style.left = (Math.random() * (window.innerWidth / 2 - 50)) + 'px'; // Random position within the left half
+            balloon.style.bottom = (Math.random() * 100 + 160) + 'px'; // Start above the cake height
+            
+            // Randomize animation duration and delay
+            const randomDuration = Math.random() * 4 + 3; // Duration between 3s and 7s
+            const randomDelay = Math.random() * 2; // Delay between 0s and 2s
+            balloon.style.animation = `float ${randomDuration}s ease-in-out infinite`;
+            balloon.style.animationDelay = `${randomDelay}s`;
+
+            balloonsContainer.appendChild(balloon);
+
+            // Create and append the string
+            const string = document.createElement('div');
+            string.className = 'string';
+            balloon.appendChild(string);
+        }
+
+        // Generate 10 balloons on the right
+        for (let i = 0; i < 10; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            
+            // Position balloons on the right side of the cake with more random spacing
+            balloon.style.left = (window.innerWidth / 2 + Math.random() * (window.innerWidth / 2 - 50)) + 'px'; // Random position within the right half
+            balloon.style.bottom = (Math.random() * 100 + 160) + 'px'; // Start above the cake height
+            
+            // Randomize animation duration and delay
+            const randomDuration = Math.random() * 4 + 3; // Duration between 3s and 7s
+            const randomDelay = Math.random() * 2; // Delay between 0s and 2s
+            balloon.style.animation = `float ${randomDuration}s ease-in-out infinite`;
+            balloon.style.animationDelay = `${randomDelay}s`;
+
+            balloonsContainer.appendChild(balloon);
+
+            // Create and append the string
+            const string = document.createElement('div');
+            string.className = 'string';
+            balloon.appendChild(string);
+        }
+
+        // Sing Happy Birthday
+        document.getElementById('singButton').addEventListener('click', function() {
+            const song = document.getElementById('birthdaySong');
+            song.play();
+        });
+
+        // Blow out candles functionality
+        document.getElementById('blowButton').addEventListener('click', function() {
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.querySelector('.flame').style.display = 'none'; // Hide the flame
+            });
+        });
+
+        // Relight candles functionality
+        document.getElementById('relightButton').addEventListener('click', function() {
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.querySelector('.flame').style.display = 'block'; // Show the flame again
+            });
+        });
+    </script>
+</body>
+</html>
