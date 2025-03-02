@@ -540,6 +540,52 @@
                     </button>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div class="recording-desk tooltip">
+                        <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
+                        <span style="margin-left: 10px; font-weight: bold;">Ralph the Camel (Easy)</span>
+                        <span class="tooltiptext">Genre: Children's<br>Length: 2:30</span>
+                    </div>
+                </td>
+                <td class="controls">
+                    <button class="play-button" onclick="playSound('Ralph the Camel (Easy).m4a', 'ralphEasyAudio')">
+                        <i class="fas fa-play icon"></i>
+                    </button>
+                    <button class="pause-button" onclick="pauseSound('ralphEasyAudio')">
+                        <i class="fas fa-pause icon"></i>
+                    </button>
+                    <button class="restart-button" onclick="restartSound('ralphEasyAudio')">
+                        <i class="fas fa-redo icon"></i>
+                    </button>
+                    <button class="lyrics-button" onclick="showLyrics('Ralph the Camel (Easy)')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="recording-desk tooltip">
+                        <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
+                        <span style="margin-left: 10px; font-weight: bold;">Ralph the Camel (Kids)</span>
+                        <span class="tooltiptext">Genre: Children's<br>Length: 2:45</span>
+                    </div>
+                </td>
+                <td class="controls">
+                    <button class="play-button" onclick="playSound('Ralph the Camel (Kids).m4a', 'ralphKidsAudio')">
+                        <i class="fas fa-play icon"></i>
+                    </button>
+                    <button class="pause-button" onclick="pauseSound('ralphKidsAudio')">
+                        <i class="fas fa-pause icon"></i>
+                    </button>
+                    <button class="restart-button" onclick="restartSound('ralphKidsAudio')">
+                        <i class="fas fa-redo icon"></i>
+                    </button>
+                    <button class="lyrics-button" onclick="showLyrics('Ralph the Camel (Kids)')">
+                        <i class="fas fa-file-alt icon"></i> <!-- Lyrics icon -->
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -826,7 +872,103 @@ I am only 8 and doing this on the fly
 Love you Zac :) 
             `.trim(),
                 'Rocking Hero': `Lyrics for Rocking Hero...`,
-                'Element Quest': `Lyrics for Element Quest...`
+                'Element Quest': `Lyrics for Element Quest...`,
+                'Ralph the Camel (Easy)': `
+[Intro]
+Oh, oh, oh, Ralph the Camel, yeah, he's got that glow,
+Trained in the desert, where the fire winds blow,
+From the sands to the skies, he's a legend we know,
+Ralph the Emberglow, he's got that fire to show.
+
+[Verse 1]
+In the heart of the desert, he started his ride,
+A simple camel, but with fire inside,
+Trained by the flames, under moonlit skies,
+He became the hero, no one could deny.
+
+[Chorus]
+Ralph the Emberglow, with fire in his soul,
+Turning desert nights to a burning glow,
+Oh, he's the hero, the legend of old,
+Ralph the Emberglow, watch his story unfold.
+
+[Verse 2]
+Through the dunes and the storms, he found his way,
+A mythical beast with powers to slay,
+When the desert called, he never turned away,
+Ralph the Emberglow, he'd light up the day.
+
+[Chorus]
+Ralph the Emberglow, with fire in his soul,
+Turning desert nights to a burning glow,
+Oh, he's the hero, the legend of old,
+Ralph the Emberglow, watch his story unfold.
+
+[Bridge]
+From the depths of the night, to the dawn of the sun,
+He knew what he had to do, his journey had begun,
+With every flame that flickered, his power grew strong,
+Ralph the Emberglow, he couldn't go wrong.
+
+[Chorus]
+Ralph the Emberglow, with fire in his soul,
+Turning desert nights to a burning glow,
+Oh, he's the hero, the legend of old,
+Ralph the Emberglow, watch his story unfold.
+
+[Outro]
+Oh, Ralph, the fire's in you,
+Now the desert knows it's true,
+Ralph, the Emberglow, we sing to you.
+                `.trim(),
+                'Ralph the Camel (Kids)': `
+[Intro]
+Oh, oh, oh, Ralph the Camel, yeah, he's got that glow,
+Trained in the desert, where the fire winds blow,
+From the sands to the skies, he's a legend we know,
+Ralph the Emberglow, he's got that fire to show.
+
+[Verse 1]
+In the heart of the desert, he started his ride,
+A simple camel, but with fire inside,
+Trained by the flames, under moonlit skies,
+He became the hero, no one could deny.
+
+[Chorus]
+Ralph the Emberglow, with fire in his soul,
+Turning desert nights to a burning glow,
+Oh, he's the hero, the legend of old,
+Ralph the Emberglow, watch his story unfold.
+
+[Verse 2]
+Through the dunes and the storms, he found his way,
+A mythical beast with powers to slay,
+When the desert called, he never turned away,
+Ralph the Emberglow, he'd light up the day.
+
+[Chorus]
+Ralph the Emberglow, with fire in his soul,
+Turning desert nights to a burning glow,
+Oh, he's the hero, the legend of old,
+Ralph the Emberglow, watch his story unfold.
+
+[Bridge]
+From the depths of the night, to the dawn of the sun,
+He knew what he had to do, his journey had begun,
+With every flame that flickered, his power grew strong,
+Ralph the Emberglow, he couldn't go wrong.
+
+[Chorus]
+Ralph the Emberglow, with fire in his soul,
+Turning desert nights to a burning glow,
+Oh, he's the hero, the legend of old,
+Ralph the Emberglow, watch his story unfold.
+
+[Outro]
+Oh, Ralph, the fire's in you,
+Now the desert knows it's true,
+Ralph, the Emberglow, we sing to you.
+                `.trim(),
             };
             return lyricsMap[songTitle] || "Lyrics not found."; // Return lyrics or a default message
         }
