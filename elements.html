@@ -42,25 +42,27 @@
             display: none;
             margin-top: 20px;
             padding: 20px;
-            background-color: white;
+            background-color: rgba(0, 0, 0, 0.8);
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
         }
         img {
             max-width: 100%;
             height: auto;
         }
         .fusion-container {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
+            color: white;
         }
         .fusion-info {
             max-width: 800px;
             margin: 0 auto;
         }
-        .fusion-info h2 {
+        .fusion-info h2, .fusion-info h3 {
             text-align: center;
             color: #ff4500;
             text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
@@ -116,16 +118,17 @@
         .navigation-instructions {
             text-align: center;
             margin-bottom: 20px;
-            background-color: rgba(255, 255, 255, 0.9); /* Light background for contrast */
-            padding: 15px; /* Add padding for better spacing */
-            border-radius: 8px; /* Rounded corners */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: white;
         }
         
         .navigation-instructions p,
         .navigation-instructions ul {
-            color: #333; /* Change text color to a darker shade for better contrast */
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7); /* Optional: Add a subtle shadow for depth */
+            color: white;
+            text-shadow: none;
         }
         
         .navigation-instructions ul {
@@ -135,6 +138,15 @@
         
         .navigation-instructions li {
             margin: 5px 0; /* Add spacing between list items */
+        }
+
+        .description a {
+            color: #ff4500;
+            text-decoration: none;
+        }
+
+        .description a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>

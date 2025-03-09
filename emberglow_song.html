@@ -586,6 +586,29 @@
                     </button>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div class="recording-desk tooltip">
+                        <i class="fas fa-record-vinyl" style="font-size: 1.5em; animation: spin 2s linear infinite;"></i>
+                        <span style="margin-left: 10px; font-weight: bold;">Emberglow's Fire</span>
+                        <span class="tooltiptext">Genre: Folk<br>Length: 3:15</span>
+                    </div>
+                </td>
+                <td class="controls">
+                    <button class="play-button" onclick="playSound('Emberglows Fire.mp3', 'emberglowsFireAudio')">
+                        <i class="fas fa-play icon"></i>
+                    </button>
+                    <button class="pause-button" onclick="pauseSound('emberglowsFireAudio')">
+                        <i class="fas fa-pause icon"></i>
+                    </button>
+                    <button class="restart-button" onclick="restartSound('emberglowsFireAudio')">
+                        <i class="fas fa-redo icon"></i>
+                    </button>
+                    <button class="lyrics-button" onclick="showLyrics('Emberglows Fire')">
+                        <i class="fas fa-file-alt icon"></i>
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -968,6 +991,43 @@ Ralph the Emberglow, watch his story unfold.
 Oh, Ralph, the fire's in you,
 Now the desert knows it's true,
 Ralph, the Emberglow, we sing to you.
+                `.trim(),
+                'Emberglows Fire': `
+[Verse]
+Under desert skies lit by a meteor stream
+A camel named Ralph chased a wild daydream
+The stars they whispered an ancient song
+Something big was coming wouldn't be long
+
+[Verse 2]
+The ground ignited with a crimson blaze
+Ralph stood tall as the flames did raise
+From hooves to mane he began to glow
+Fireborn spirit now called Emberglow
+
+[Chorus]
+With fire in the heart and kindness in his stride
+Emberglow burns bright where the shadows hide
+He sparks understanding building bridges anew
+Teaching the world what a flame can do
+
+[Verse]
+Evil creeps in cloaks of cold and despair
+But Emberglow rises lighting up the air
+Not to scorch but to warm the lost and astray
+A fiery beacon to show them the way
+
+[Bridge]
+His flames dance with wisdom wild but tame
+A lesson in kindness lit by golden flame
+Meteor-born not destruction but art
+A fire for the soul a torch in the dark
+
+[Chorus]
+With fire in the heart and kindness in his stride
+Emberglow burns bright where the shadows hide
+He sparks understanding building bridges anew
+Teaching the world what a flame can do
                 `.trim(),
             };
             return lyricsMap[songTitle] || "Lyrics not found."; // Return lyrics or a default message

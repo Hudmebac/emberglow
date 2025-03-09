@@ -101,6 +101,44 @@
                 justify-content: center;
             }
         }
+
+        /* Styles for the contact section */
+        .contact-section {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            color: white;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .contact-section h3 {
+            color: #ff8c00;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            margin: 10px 0;
+        }
+
+        .contact-section a {
+            color: #ff8c00;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-section a:hover {
+            text-decoration: underline;
+            color: #ffb300;
+        }
+
+        .contact-section i {
+            margin-right: 8px;
+            color: #ff8c00;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +155,15 @@
     <div class="container" id="emberglowContainer" style="display: none;">
         <canvas id="canvas" width="800" height="600"></canvas>
     </div>
+
+    <!-- Contact and Suggestions Section -->
+    <div class="contact-section">
+        <h3>Suggestions & Contact</h3>
+        <p>We value your feedback! Have ideas to improve Emberglow or want to share your thoughts?</p>
+        <p><i class="fas fa-envelope"></i>Email us at: <a href="mailto:emberglowfire@gmail.com">emberglowfire@gmail.com</a></p>
+        <p>Your suggestions help us make this experience better for everyone.</p>
+    </div>
+
     <script src="script.js"></script>
     <script>
         function toggleContainer() {
