@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-serif: "Playfair Display", serif;
+
+  --color-eg-gold: #E68A45;
+  --color-eg-amber: #F27D26;
+  --color-eg-deep: #12100E;
+  --color-eg-charcoal: #1C1A18;
+  --color-eg-sand: #F9F7F5;
+}
+
+@layer base {
+  body {
+    @apply bg-eg-deep text-eg-sand font-sans antialiased selection:bg-eg-amber/30;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight font-light;
+  }
+}
+
+.eg-glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/5;
+}
+
+.eg-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-eg-gold to-eg-amber;
+}
+
+.eg-book-shadow {
+  @apply shadow-2xl shadow-black/80;
+}
+
+.eg-nav-link {
+  @apply text-eg-sand/60 hover:text-eg-gold transition-colors duration-300 text-[10px] font-bold uppercase tracking-[0.2em];
+}
+
+.eg-nav-link-active {
+  @apply text-eg-gold;
+}
+
+.eg-btn {
+  @apply px-8 py-4 rounded-full font-bold uppercase text-[10px] tracking-[0.2em] transition-all duration-300 active:scale-95;
+}
+
+.eg-btn-primary {
+  @apply bg-white text-black hover:bg-eg-gold hover:text-white;
+}
+
+.eg-btn-ghost {
+  @apply border border-eg-gold/30 text-eg-sand hover:bg-eg-gold hover:text-white;
+}
+
+.eg-muted {
+  @apply text-eg-sand/50 font-light;
+}
+
+.eg-grid-overlay {
+  @apply absolute inset-0 pointer-events-none opacity-[0.02];
+  background-image: radial-gradient(#fff 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.eg-glow-top {
+  @apply absolute top-[-200px] left-[-200px] w-[600px] h-[600px] bg-eg-gold opacity-10 rounded-full blur-[120px] pointer-events-none z-0;
+}
+
+.eg-glow-bottom {
+  @apply absolute bottom-[-100px] right-[-100px] w-[500px] h-[500px] bg-eg-amber opacity-5 rounded-full blur-[100px] pointer-events-none z-0;
+}
+
+.markdown-body {
+  @apply space-y-6 leading-relaxed text-eg-sand/70 font-light;
+}
+
+.markdown-body h2 {
+  @apply text-4xl font-light text-eg-sand mt-12 mb-6 tracking-tighter;
+}
+
+.markdown-body p {
+  @apply mb-6 text-lg;
+}
+
+.markdown-body strong {
+  @apply text-eg-gold font-normal;
+}
+
+.markdown-body ul {
+  @apply list-disc list-inside space-y-3;
+}
